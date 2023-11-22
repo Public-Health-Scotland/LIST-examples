@@ -1,0 +1,17 @@
+linters: linters_with_tags(
+  tags = c(
+    "best_practices",
+    "common_mistakes",
+    "consistency",
+    "correctness",
+    "default",
+    "efficiency",
+    "executing",
+    "readability",
+    "robustness",
+    "style"
+    ),
+    undesirable_function_linter = NULL,
+    absolute_path_linter = NULL
+  )
+encoding: "UTF-8"
