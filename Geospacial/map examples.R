@@ -20,7 +20,7 @@ list.files(shapefiles_folder)
 # Datazone shapefile from Shapefiles/Data Zone 2011/ folder
 # .shp files are read in
 datazone_shp <- read_sf(file.path(shapefiles_folder, "Data Zones 2011", "SG_DataZone_Bdry_2011.shp")) |>
-  # converts the shapefile to use latitutde and longitude
+  # converts the shapefile to use latitude and longitude
   st_transform(4326) # EPSG4326
 
 # Map 1: Choose an HSCP and plot a map ####
@@ -66,18 +66,7 @@ simd <- readRDS("/conf/linkage/output/lookups/Unicode/Deprivation/DataZone2011_s
   select(datazone2011, simd2020v2_sc_decile, simd2020v2_sc_quintile)
 
 # SIMD deciles
-simd_deciles_levels <- c(
-  "1 (Most Deprived)",
-  "2",
-  "3",
-  "4",
-  "5",
-  "6",
-  "7",
-  "8",
-  "9",
-  "10 (Least Deprived)"
-)
+simd_deciles_levels <- c("1 (Most Deprived)", 2:9, "10 (Least Deprived)")
 
 # join simd data for chosen hscp to hscp_dz_shp
 hscp_dz_shp <- hscp_dz_shp |>
