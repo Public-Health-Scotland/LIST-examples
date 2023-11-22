@@ -1,49 +1,32 @@
-# History files
+.Rproj.user
 .Rhistory
-.Rapp.history
-
-# Session Data files
 .RData
-.RDataTmp
-
-# User-specific files
 .Ruserdata
+*.Rproj
 
-# Example code in package build process
-*-Ex.R
+# 'data' folder #
+data/
 
-# Output files from R CMD build
-/*.tar.gz
+# Common text files that may contain data #
+*.[cC][sS][vV]
+*.[cC][sS][vV].*
+*.[tT][xX][tT]
 
-# Output files from R CMD check
-/*.Rcheck/
+# Excel files #
+*.[xX][lL][sS]*
 
-# RStudio files
-.Rproj.user/
+# SPSS formats #
+*.[sS][aA][vV]
+*.[zZ][sS][aA][vV]
 
-# produced vignettes
-vignettes/*.html
-vignettes/*.pdf
+# R data files #
+*.[rR][dD][aA][tT][aA]
+*.[rR][dD][sS]
 
-# OAuth2 token, see https://github.com/hadley/httr/releases/tag/v0.3
-.httr-oauth
+# Cross platform data files #
+*.[pP][aA][rR][qQ][uU][eE][tT]
+*.[fF][sS][tT]
+*.[qQ][sS]
 
-# knitr and R markdown default cache directories
-*_cache/
-/cache/
-
-# Temporary files created by R markdown
-*.utf8.md
-*.knit.md
-
-# R Environment Variables
-.Renviron
-
-# pkgdown site
-docs/
-
-# translation temp files
-po/*~
-
-# RStudio Connect folder
-rsconnect/
+# MacOS folder attributes files #
+.DS_Store
