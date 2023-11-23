@@ -13,8 +13,8 @@ body:
       label: Existing topic?
       description: Is this example for an existing topic?
       options:
-        - Yes
-        - No - New topic.
+        - "Yes"
+        - "No - New topic."
       default: 0
     validations:
       required: true
