@@ -1,0 +1,43 @@
+name: Example request
+description: Request a new script example be added
+title: "[Request]: "
+labels: ["request"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to suggest a new example!
+  - type: dropdown
+    id: existing-topic
+    attributes:
+      label: Existing topic?
+      description: Is this example for an existing topic?
+      options:
+        - Yes
+        - No - New topic.
+      default: 0
+    validations:
+      required: true
+  - type: textarea
+    id: topic
+    attributes:
+      label: What is the topic?
+      description: If this fits into an existing topic please use that, otherwise suggest a high-level name for the new topic.
+      placeholder: TOPIC
+      value: "TOPIC"
+    validations:
+      required: true
+  - type: textarea
+    id: example
+    attributes:
+      label: What is the example
+      description: What is the example you'd like to see, please give context for when / how the code is often used to allow us to best put together something general and useful!
+    validations:
+      required: true
+  - type: textarea
+    id: example-code
+    attributes:
+      label: Any example code
+      description: If you have any code that might be relevant you can include it here. It will be automatically formatted as R code.
+      render: R
+
