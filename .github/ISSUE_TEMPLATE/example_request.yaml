@@ -24,7 +24,6 @@ body:
       label: What is the topic?
       description: If this fits into an existing topic please use that, otherwise suggest a high-level name for the new topic.
       placeholder: TOPIC
-      value: "TOPIC"
     validations:
       required: true
   - type: textarea
