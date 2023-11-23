@@ -1,0 +1,40 @@
+name: Example Code
+description: Suggest some code / a script which can be used directly.
+title: "[Example]: "
+labels: ["example"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to contribute some code!
+  - type: dropdown
+    id: existing-topic
+    attributes:
+      label: Existing topic?
+      description: Is this script for an existing topic?
+      options:
+        - "Yes"
+        - "No - New topic."
+      default: 0
+    validations:
+      required: true
+  - type: input
+    id: topic
+    attributes:
+      label: What is the topic?
+      description: If this fits into an existing topic please use that, otherwise suggest a high-level name for the new topic.
+    validations:
+      required: true
+  - type: textarea
+    id: example
+    attributes:
+      label: Context for the code
+      description: When is the code used, anything to note about it?
+  - type: textarea
+    id: example-code
+    attributes:
+      label: Code / Script
+      description: Add the code here, it will be formatted as R code.
+      render: R
+    validations:
+      required: true
