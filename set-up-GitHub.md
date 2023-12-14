@@ -51,5 +51,5 @@ Click *Add SSH key* and paste in the public key you have copied from RStudio (Fi
 ![](https://github.com/SurgicalInformatics/healthyr_book/blob/dfa80747ee81e718d53ddb5f22bfd5599181ba3d/images/chapter14/2.png)
 
 ## References
- * [PHS git guide](https://public-health-scotland.github.io/git-guide/)
- * [R for Health Data Science](https://argoshare.is.ed.ac.uk/healthyr_book/create-an-ssh-rsa-key-and-add-to-your-github-account.html)
+ [^1] [PHS git guide](https://public-health-scotland.github.io/git-guide/)
+ [^2] [R for Health Data Science](https://argoshare.is.ed.ac.uk/healthyr_book/create-an-ssh-rsa-key-and-add-to-your-github-account.html)
