@@ -6,12 +6,12 @@ These instructions are for first-time users of GitHub and highlight the steps in
 
 2. **Edit your details** - you can set these items up as part of the sign-up process. If not, please follow the links and edit them now.
 
-* Go to your [Profile Settings](https://github.com/settings/profile) and add your details with a picture of yourself if you feel comfortable doing so.
-* Go to your [Account Settings](https://github.com/settings/admin) and make sure your username is set to be your name (or something more recognisable). This helps to easily identify users.
+    * Go to your [Profile Settings](https://github.com/settings/profile) and add your details with a picture of yourself if you feel comfortable doing so.
+    * Go to your [Account Settings](https://github.com/settings/admin) and make sure your username is set to be your name (or something more recognisable). This helps to easily identify users.
 
 3. **Get added to the PHS Organisation**.
 
-* The [Public Health Scotland GitHub organisation](https://github.com/Public-Health-Scotland) is the main way permissions are handled. Email [phs.datascience@phs.scot](mailto:phs.datascience@phs.scot) to be added to the organisation with your GitHub username. You'll then be able to be added to or create your own shared repos or teams.
+    * The [Public Health Scotland GitHub organisation](https://github.com/Public-Health-Scotland) is the main way permissions are handled. Email [phs.datascience@phs.scot](mailto:phs.datascience@phs.scot) to be added to the organisation with your GitHub username. You'll then be able to be added to or create your own shared repos or teams.
 
 ## Gitea Setup
 
