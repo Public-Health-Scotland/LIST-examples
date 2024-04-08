@@ -1,4 +1,4 @@
-# Geospacial
+# Geospatial
 
 Examples related to geospatial and making maps.
 
