@@ -28,7 +28,7 @@ locality_shp <- read_sf(file.path(shapefiles_folder, "HSCP Locality (Datazone201
 
 # Get locality data
 localities <- read_rds(file.path("/conf/linkage/output/lookups/Unicode/Geography",
-                       "HSCP Locality/HSCP Localities_DZ11_Lookup_20230804.rds")) |>
+                       "HSCP Locality/HSCP Localities_DZ11_Lookup_20230804.rds")) %>% 
   # Choose the required columns
   select(datazone2011, hscp_locality)
 
@@ -55,11 +55,11 @@ locality_shp %>%
   # add locality boundary
   addPolygons(color = "grey", weight = 1, smoothFactor = 0.001) %>% 
   # within 10 minutes drive area
-  addPolygons(data = car, color = "red", weight = 0.5) |>
+  addPolygons(data = car, color = "red", weight = 0.5) %>% 
   # within 10 minutes cycle area
-  addPolygons(data = bike,  color = "blue", weight = 0.5) |>
+  addPolygons(data = bike,  color = "blue", weight = 0.5) %>% 
   # within 10 minutes walk area
-  addPolygons(data = foot,  color = "green", weight = 0.5) |>
+  addPolygons(data = foot,  color = "green", weight = 0.5) %>% 
   # GP Practice markers
   addAwesomeMarkers(
     data = gp_practices,

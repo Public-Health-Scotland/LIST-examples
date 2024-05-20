@@ -27,7 +27,7 @@ locality_shp <- read_sf(file.path(shapefiles_folder, "HSCP Locality (Datazone201
 
 # Get locality data
 localities <- read_rds(file.path("/conf/linkage/output/lookups/Unicode/Geography",
-                                 "HSCP Locality/HSCP Localities_DZ11_Lookup_20230804.rds")) |>
+                                 "HSCP Locality/HSCP Localities_DZ11_Lookup_20230804.rds")) %>%
   # Choose the required columns
   select(datazone2011, hscp_locality)
 
@@ -57,23 +57,23 @@ car <- get_travel_areas(gp_practices$longitude, gp_practices$latitude, travel_ti
 within_10min_drive <- get_locations_within(patients, car)
 
 # Plot to check result (but not needed in general)
-locality_shp |>
-  leaflet() |>
-  addProviderTiles(provider = providers[["OpenStreetMap"]]) |>
+locality_shp  %>% 
+  leaflet() %>%
+  addProviderTiles(provider = providers[["OpenStreetMap"]]) %>%
   # Locality
-  addPolygons(color = "grey",weight = 1,smoothFactor = 0.001) |>
+  addPolygons(color = "grey",weight = 1,smoothFactor = 0.001) %>%
   # Within 10 minutes drive
-  addPolygons(data = car, color = "red") |>
+  addPolygons(data = car, color = "red") %>%
   # Markers for people within 10 minute drive (all are within the driveable areas)
   addCircleMarkers(data = within_10min_drive, radius = 1, color = "blue", opacity = 1)
 
 # compare this to all selected postcodes:
-locality_shp |>
-  leaflet() |>
-  addProviderTiles(provider = providers[["OpenStreetMap"]]) |>
+locality_shp %>%
+  leaflet() %>%
+  addProviderTiles(provider = providers[["OpenStreetMap"]]) %>%
   # Locality
-  addPolygons(color = "grey",weight = 1,smoothFactor = 0.001) |>
+  addPolygons(color = "grey",weight = 1,smoothFactor = 0.001) %>%
   # areas within 10 minutes drive
-  addPolygons(data = car, color = "red") |>
+  addPolygons(data = car, color = "red") %>%
   # All patients
   addCircleMarkers(data = patients, radius = 1, color = "blue", opacity = 1)
