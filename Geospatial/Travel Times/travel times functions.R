@@ -17,7 +17,7 @@ get_travel_areas <- function(longitude, latitude, travel_time, travel_method = "
   iso <- iso[sapply(iso, nrow) != 0]
   
   # Combine into a single area to make plotting easier  
-  iso <- purrr::reduce(iso, \(x, y) st_make_valid(x) %>% st_union(y))
+  iso <- suppressWarnings(purrr::reduce(iso, \(x, y) st_make_valid(x) %>% st_union(y)))
   
   # Remove odd small regions
   st_geometry(iso) <- st_sfc(st_multipolygon(iso$geometry[[1]][sapply(iso$geometry[[1]], function(x) nrow(x[[1]])) > 5]), crs = 4326)# Add the polygons together to make mapping simpler
@@ -25,11 +25,11 @@ get_travel_areas <- function(longitude, latitude, travel_time, travel_method = "
   # If a region is supplied for within_region....
   if(!is.null(within_region)){
     iso <- iso %>% 
-      st_intersection(locality_shp) # ....remove any bits which have gone outside the locality
+      suppressWarnings(st_intersection(locality_shp)) # ....remove any bits which have gone outside the locality
   }
   
   # Return final object
-  iso
+  iso %>% sf_remove_holes()
 }
 
 # get_locations_within - function to extract a subset of locations that lie within a travel time
@@ -62,5 +62,5 @@ get_iso <- function(lon, lat, travel_time, travel_method) {
     res = 10, # The resolution i.e. check res*res points. More points == Slow.
     osrm.profile = travel_method # Car/foot/bike
   ) %>% 
-    st_make_valid()
+    suppressWarnings(st_make_valid())
 }
