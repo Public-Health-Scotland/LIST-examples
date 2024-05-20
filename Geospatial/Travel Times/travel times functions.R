@@ -47,7 +47,7 @@ get_locations_within <- function(locations, iso){
   points <- st_as_sf(locations, coords = c(long_col, lat_col), crs = st_crs(4326)) 
   
   # length of elements returned will be 1 if point lies within region and 0 otherwise
-  within_ind <- sapply(st_intersects(points, iso_car), length)
+  within_ind <- sapply(st_intersects(points, iso), length)
   
   # Return appropriate locations
   locations[within_ind == 1, ]
