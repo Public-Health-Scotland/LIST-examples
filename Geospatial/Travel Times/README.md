@@ -9,14 +9,15 @@ This folder contains examples of using the package `{osrm}` to analyse travel ti
 
 To install `{osrm}` on Posit Workbench you will need to install an older version of `{googlePolylines}` first. The following code will install both packages:
 
-    devtools::install_version("googlePolylines", "0.8.1")
-    install.packages("osrm")
-
+```r
+devtools::install_version("googlePolylines", "0.8.1")
+install.packages("osrm")
+```
 ## Files
 
--   [**travel times functions.R**](Geospatial/travel times functions.R) - functions to allow you to use the `{osrm}` functionality easily
+-   [**travel times functions.R**](Geospatial/Travel Times/travel times functions.R) - functions to allow you to use the `{osrm}` functionality easily
 
--   [**travel times map.R**](Geospatial/travel times map.R) - creating a map showing travellable areas from a specific location within a certain time using car, bike, and foot
+-   [**travel times map.R**](Geospatial/Travel Times/travel times map.R) - creating a map showing travellable areas from a specific location within a certain time using car, bike, and foot
 
--   [**travel times within.R**](Geospatial/travel times within.R) - code to extract the number of locations within a certain travel time of another location (e.g. patients within a certain travel time of GP surgery)
+-   [**travel times within.R**](Geospatial/Travel Times/travel times within.R) - code to extract the number of locations within a certain travel time of another location (e.g. patients within a certain travel time of GP surgery)
 

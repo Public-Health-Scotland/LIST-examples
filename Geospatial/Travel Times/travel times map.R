@@ -29,8 +29,7 @@ locality_shp <- read_sf(file.path(shapefiles_folder, "HSCP Locality (Datazone201
   filter(hscp_locality == locality)
 
 # Get locality data
-localities <- read_rds(file.path(lookups_folder, "Geography",
-                       "HSCP Locality/HSCP Localities_DZ11_Lookup_20230804.rds")) %>% 
+localities <- read_rds(file.path(lookups_folder, "Geography","HSCP Locality/HSCP Localities_DZ11_Lookup_20230804.rds")) %>% 
   # Choose the required columns
   select(datazone2011, hscp_locality)
 
