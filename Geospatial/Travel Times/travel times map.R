@@ -56,11 +56,11 @@ locality_shp %>%
   # add locality boundary
   addPolygons(color = "grey", weight = 1, smoothFactor = 0.001) %>% 
   # within 10 minutes drive area
-  addPolygons(data = car, color = "red", weight = 0.5) %>% 
+  addPolygons(data = car, color = "red", weight = 0.5, opacity = 1) %>% 
   # within 10 minutes cycle area
-  addPolygons(data = bike,  color = "blue", weight = 0.5) %>% 
+  addPolygons(data = bike,  color = "blue", weight = 0.5, opacity = 1) %>% 
   # within 10 minutes walk area
-  addPolygons(data = foot,  color = "green", weight = 0.5) %>% 
+  addPolygons(data = foot,  color = "green", weight = 0.5, opacity = 1) %>% 
   # GP Practice markers
   addAwesomeMarkers(
     data = gp_practices,
@@ -69,4 +69,5 @@ locality_shp %>%
       "Postcode: {pc7}<br>",
       "Latitude: {latitude}, Longitude: {longitude}"
     )
-  )
+  ) %>% 
+  addLegend(colors = c("red", "blue", "green"), labels = c("Drive", "Cycle", "Walk"), title = "Within 10 minute...")
