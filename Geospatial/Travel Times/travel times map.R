@@ -35,11 +35,11 @@ localities <- read_rds(file.path(lookups_folder, "Geography",
   select(datazone2011, hscp_locality)
 
 # Get GP Practices and filter to those in the locality
-gp_practices <- read_parquet(file_path(lookups_folder, "Unicode/Geography/Scottish Postcode Directory/Scottish_Postcode_Directory_2023_2.parquet"),
+gp_practices <- read_parquet(file.path(lookups_folder, "Geography/Scottish Postcode Directory/Scottish_Postcode_Directory_2023_2.parquet"),
                              col_select = c(pc7, latitude, longitude, datazone2011)) %>% 
   left_join(localities, by = join_by(datazone2011)) %>% 
   filter(hscp_locality == locality) %>% 
-  left_join(read_csv(file.path(lookups_folder, "/Unicode/National Reference Files/gpprac.csv")),
+  left_join(read_csv(file.path(lookups_folder, "National Reference Files/gpprac.csv")),
             by = join_by(pc7 == postcode))  %>% 
   drop_na(praccode)
 
