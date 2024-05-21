@@ -29,9 +29,10 @@ get_travel_areas <- function(longitude, latitude, travel_time, travel_method = c
 
   # Remove odd small regions
   # [[1]] subsetting needed as the geometry column is a list with one entry because of st_union()
-  if (inherits(iso$geometry[[1]], "sfc_MULTIPOLYGON")) {
-    small_area <- purrr::map_lgl(iso$geometry[[1]], \(x) nrow(x[[1]]) <= 5)
-    st_geometry(iso) <- st_sfc(st_multipolygon(iso$geometry[[1]][!small_area], crs = 4326)) # Add the polygons together to make mapping simpler
+  if (inherits(iso$geometry, "sfc_MULTIPOLYGON")) {
+    iso_geometry <- unlist(iso$geometry, recursive = FALSE)
+    small_area <- purrr::map_lgl(unlist(iso_geometry, recursive = FALSE), \(x) nrow(x) <= 5)
+    st_geometry(iso) <- st_sfc(st_multipolygon(iso_geometry[!small_area]), crs = 4326) # Add the polygons together to make mapping simpler
   }
 
   # If a region is supplied for within_region....
