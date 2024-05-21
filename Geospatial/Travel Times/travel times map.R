@@ -17,8 +17,10 @@ source("Geospatial/Travel Times/travel times functions.R")
 # Pick a Locality - this can be changed to whichever locality is needed
 locality <- "Kilmarnock"
 
+lookups_folder <- file.path("/conf/linkage/output/lookups/Unicode")
+
 # Read in the locality shapefile
-shapefiles_folder <- file.path("/conf/linkage/output/lookups/Unicode/Geography/Shapefiles")
+shapefiles_folder <- file.path(lookups_folder, "Geography/Shapefiles")
 locality_shp <- read_sf(file.path(shapefiles_folder, "HSCP Locality (Datazone2011 Base)", "HSCP_Locality.shp")) %>% 
   # converts the shapefile to use latitude and longitude
   st_transform(4326) %>%  # EPSG4326
@@ -27,17 +29,17 @@ locality_shp <- read_sf(file.path(shapefiles_folder, "HSCP Locality (Datazone201
   filter(hscp_locality == locality)
 
 # Get locality data
-localities <- read_rds(file.path("/conf/linkage/output/lookups/Unicode/Geography",
+localities <- read_rds(file.path(lookups_folder, "Geography",
                        "HSCP Locality/HSCP Localities_DZ11_Lookup_20230804.rds")) %>% 
   # Choose the required columns
   select(datazone2011, hscp_locality)
 
 # Get GP Practices and filter to those in the locality
-gp_practices <- read_parquet("/conf/linkage/output/lookups/Unicode/Geography/Scottish Postcode Directory/Scottish_Postcode_Directory_2023_2.parquet",
+gp_practices <- read_parquet(file_path(lookups_folder, "Unicode/Geography/Scottish Postcode Directory/Scottish_Postcode_Directory_2023_2.parquet"),
                              col_select = c(pc7, latitude, longitude, datazone2011)) %>% 
   left_join(localities, by = join_by(datazone2011)) %>% 
   filter(hscp_locality == locality) %>% 
-  left_join(read_csv(file.path("/conf/linkage/output/lookups/Unicode/National Reference Files/gpprac.csv")),
+  left_join(read_csv(file.path(lookups_folder, "/Unicode/National Reference Files/gpprac.csv")),
             by = join_by(pc7 == postcode))  %>% 
   drop_na(praccode)
 
