@@ -8,8 +8,8 @@
 
 get_travel_areas <- function(longitude, latitude, travel_time, travel_method = c("car", "bike", "foot"), within_region = NULL) {
   travel_method <- rlang::arg_match(travel_method)
-  
-  if(length(latitude) > 10){
+
+  if (length(latitude) > 10) {
     cli::cli_inform("This process may take a bit of time.")
   }
   # Get travel areas
