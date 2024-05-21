@@ -20,7 +20,9 @@ get_travel_areas <- function(longitude, latitude, travel_time, travel_method = "
   iso <- suppressWarnings(purrr::reduce(iso, \(x, y) st_make_valid(x) %>% st_union(y)))
   
   # Remove odd small regions
-  st_geometry(iso) <- st_sfc(st_multipolygon(iso$geometry[[1]][sapply(iso$geometry[[1]], function(x) nrow(x[[1]])) > 5]), crs = 4326)# Add the polygons together to make mapping simpler
+  if(inherits(iso$geometry[[1]], "sfc_MULTIPOLYGON")){
+    st_geometry(iso) <- st_sfc(st_multipolygon(iso$geometry[[1]][sapply(iso$geometry[[1]], function(x) nrow(x[[1]])) > 5]), crs = 4326)# Add the polygons together to make mapping simpler
+  }
   
   # If a region is supplied for within_region....
   if(!is.null(within_region)){
@@ -62,5 +64,5 @@ get_iso <- function(lon, lat, travel_time, travel_method) {
     res = 10, # The resolution i.e. check res*res points. More points == Slow.
     osrm.profile = travel_method # Car/foot/bike
   ) %>% 
-    suppressWarnings(st_make_valid())
+    st_make_valid()
 }
