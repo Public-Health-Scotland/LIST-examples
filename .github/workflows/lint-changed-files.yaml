@@ -23,7 +23,7 @@ jobs:
         run: install.packages("pak")
         shell: Rscript {0}
 
-      - name: Install styler and other packages
+      - name: Install lintr and other packages
         run: pak::pak(c("lintr", "purrr", "gh"))
         shell: Rscript {0}
 
