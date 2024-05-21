@@ -10,7 +10,7 @@ get_travel_areas <- function(longitude, latitude, travel_time, travel_method = c
   travel_method <- rlang::arg_match(travel_method)
   
   if(length(latitude) > 10){
-    cli::inform("This process may take a bit of time.")
+    cli::cli_inform("This process may take a bit of time.")
   }
   # Get travel areas
   iso <- purrr::map2(
@@ -53,7 +53,7 @@ get_locations_within <- function(locations, iso) {
   lat_col <- stringr::str_subset(names(locations), stringr::regex("^lat(:?itude)?$", ignore_case = TRUE))
 
   # Notify user which columns are being taken as long and lat
-  cli::inform("Assuming {.val {long_col}} and {.val {lat_col}} are longitude and latitude respectively.")
+  cli::cli_inform("Assuming {.val {long_col}} and {.val {lat_col}} are longitude and latitude respectively.")
 
   # convert locations to an sf object to allow comparison with iso region
   points <- st_as_sf(locations, coords = c(long_col, lat_col), crs = st_crs(4326))

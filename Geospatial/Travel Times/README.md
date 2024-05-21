@@ -17,7 +17,11 @@ install.packages("osrm")
 
 -   **travel times functions.R** - functions to allow you to use the `{osrm}` functionality easily
 
+-   **travel times within.R** - code to extract the number of locations within a certain travel time of another location (e.g. patients within a certain travel time of GP surgery)
+
 -   **travel times map.R** - creating a map showing travellable areas from a specific location within a certain time using car, bike, and foot
 
--   **travel times within.R** - code to extract the number of locations within a certain travel time of another location (e.g. patients within a certain travel time of GP surgery)
+![](img/Map.PNG)
+
+
 
