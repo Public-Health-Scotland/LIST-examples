@@ -10,7 +10,7 @@ get_travel_areas <- function(longitude, latitude, travel_time, travel_method = c
   travel_method <- rlang::arg_match(travel_method)
 
   if (length(latitude) > 10) {
-    cli::cli_inform("This process may take a bit of time.")
+    cli::cli_inform("Calculating travel areas for {length(latitude)} areas may take a while, fewer areas will be quicker.")
   }
   # Get travel areas
   iso <- purrr::map2(
@@ -49,7 +49,7 @@ get_travel_areas <- function(longitude, latitude, travel_time, travel_method = c
 # iso       - sf object. Intended to be output from get_travel_areas.
 get_locations_within <- function(locations, iso) {
   # Detect lat and long columns - does partial matching - note colname has to start with lat or lon
-  long_col <- stringr::str_subset(names(locations), stringr::regex("^long(:?itude)?$", ignore_case = TRUE))
+  long_col <- stringr::str_subset(names(locations), stringr::regex("^long?(:?itude)?$", ignore_case = TRUE))
   lat_col <- stringr::str_subset(names(locations), stringr::regex("^lat(:?itude)?$", ignore_case = TRUE))
 
   # Notify user which columns are being taken as long and lat
