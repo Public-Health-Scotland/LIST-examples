@@ -39,5 +39,6 @@ smr01_query
 # Return the data
 smr01_extract <- collect(smr01_query)
 
-# close the connection
+# close and remove the connection
 dbDisconnect(smra_conn)
+rm(smra_conn)
