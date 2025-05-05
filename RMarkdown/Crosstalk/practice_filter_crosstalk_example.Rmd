@@ -1,0 +1,127 @@
+---
+title: "Crosstalk Example: GP Practice Data"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+# Load necessary libraries
+# Ensure these are installed: `install.packages(c("crosstalk", "plotly", "DT", "dplyr", "tidyr"))`
+library(crosstalk)
+library(plotly)
+library(DT)
+library(dplyr)
+library(tidyr) # Only used for generating the dummy data
+
+# Set seed for reproducibility
+set.seed(123)
+```
+
+## Introduction
+
+This document demonstrates how to use the `crosstalk` package in R Markdown to create linked interactive components. We will generate dummy data for three GP practices, showing a monthly value over a year. A filter control will allow selecting specific practices, and both the line plot and the data table below will update accordingly.
+
+## Data Generation
+
+First, we generate some sample data representing monthly values for three GP practices.
+
+```{r generate_data}
+# Define GP practices
+practices <- c("Practice A", "Practice B", "Practice C")
+
+# Create a sequence of months for one year
+months <- seq(as.Date("2023-01-01"), as.Date("2023-12-01"), by = "month")
+
+# Create a data frame combining practices and months
+gp_data <- expand_grid(practice_name = practices, month = months)
+
+# Add a random value for each practice/month combination
+# Simulate some variation and trends
+gp_data <- gp_data |>
+  arrange(practice_name, month) |>
+  group_by(practice_name) |>
+  mutate(
+    # Add some baseline variation and a slight trend component
+    value = round(50 + cumsum(rnorm(n(), mean = 0, sd = 5)) + seq(0, 5, length.out = n()), 1),
+    # Ensure value is not negative
+    value = pmax(0, value)
+  ) |>
+  ungroup() |>
+  # Format month for better display
+  mutate(month_display = format(month, "%Y-%m"))
+```
+
+## Interactive Visualization and Table
+
+Now, we wrap the data in `SharedData` from the `crosstalk` package. This allows different widgets and plots to react to selections made on the data.
+
+```{r crosstalk_setup}
+# Wrap the data frame in SharedData
+# Use practice_name as the key for linking
+shared_gp_data <- SharedData$new(gp_data, key = ~practice_name, group = "gp_selection")
+```
+
+We can now create the interactive components: a filter for the GP practice, a Plotly line plot, and a DT datatable.
+
+```{r interactive_filter}
+# Create the filter control for GP practice
+# Allows selecting one or more practices
+filter_select(
+  id = "practice_filter",
+  label = "Select GP Practice(s):",
+  sharedData = shared_gp_data,
+  group = ~practice_name # Filter based on the practice_name column
+)
+```
+
+```{r interactive_plotly}
+# Create the Plotly line plot
+# It uses the shared data, so it will update based on the filter
+plot_gp <- plot_ly(
+  shared_gp_data,
+  x = ~month,
+  y = ~value,
+  color = ~practice_name,
+  type = "scatter",
+  mode = "lines+markers",
+  hoverinfo = "text",
+  text = ~ paste("Practice:", practice_name, "<br>Month:", month_display, "<br>Value:", value)
+) |>
+  layout(
+    title = "Monthly Value per GP Practice",
+    xaxis = list(title = "Month"),
+    yaxis = list(title = "Value"),
+    hovermode = "closest" # Improve hover experience
+  )
+```
+
+```{r interactive_datatable}
+# Create the DT datatable
+# It also uses the shared data and will update
+table_gp <- datatable(
+  shared_gp_data,
+  rownames = FALSE, # Don't show row numbers
+  colnames = c("Practice Name", "Month", "Value", "Month Display"), # Nicer column names
+  filter = "none", # Disable individual column filters as we have the main filter
+  options = list(
+    pageLength = 10, # Show 10 rows per page
+    autoWidth = TRUE
+  )
+)
+```
+
+```{r display_elements}
+# Display the plot and table
+# They will react to the filter selection above
+bscols(plot_gp, table_gp, widths = c(6, 6)) # Arrange plot and table side-by-side
+```
+
+## Explanation
+
+1.  **Data Preparation**: We created a tidy data frame (`gp_data`) with columns for practice name, month, and a simulated value.
+2.  **Shared Data**: The `SharedData$new()` function wraps our data frame. We specify `key = ~practice_name` so that `crosstalk` knows which variable links selections across different components (the filter, plot, and table). The `group` argument ensures that widgets intended to work together share the same selection scope.
+3.  **Filter Control**: `filter_select()` creates a dropdown/select input. It's linked to the `shared_gp_data` via the `sharedData` argument and targets the `practice_name` column via the `group` argument.
+4.  **Plotly Plot**: `plot_ly()` is called directly on the `shared_gp_data` object. Plotly automatically understands how to interact with `SharedData` objects, filtering the data based on the current selection from the `filter_select` widget.
+5.  **DT Table**: Similarly, `datatable()` is called on the `shared_gp_data` object. It filters its display based on the selection.
+6.  **Layout**: `bscols()` (from `crosstalk`) arranges the plot and table side-by-side for a cleaner layout.
+
+When you select one or more practices from the filter dropdown, both the plot and the table will instantly update to show only the data for the selected practices.
