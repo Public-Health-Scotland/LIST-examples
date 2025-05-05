@@ -48,7 +48,6 @@ gp_data <- gp_data |>
   ungroup() |>
   # Format month for better display
   mutate(month_display = format(month, "%Y-%m"))
-
 ```
 
 ## Interactive Visualization and Table
@@ -78,14 +77,15 @@ filter_select(
 # Create the Plotly line plot
 # It uses the shared data, so it will update based on the filter
 plot_gp <- plot_ly(
-  shared_gp_data, 
-  x = ~month, 
-  y = ~value, 
+  shared_gp_data,
+  x = ~month,
+  y = ~value,
   color = ~practice_name,
-  type = 'scatter', 
-  mode = 'lines+markers',
-  hoverinfo = 'text',
-  text = ~paste("Practice:", practice_name, "<br>Month:", month_display, "<br>Value:", value)) |>
+  type = "scatter",
+  mode = "lines+markers",
+  hoverinfo = "text",
+  text = ~ paste("Practice:", practice_name, "<br>Month:", month_display, "<br>Value:", value)
+) |>
   layout(
     title = "Monthly Value per GP Practice",
     xaxis = list(title = "Month"),
