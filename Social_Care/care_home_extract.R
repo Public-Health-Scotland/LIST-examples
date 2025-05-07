@@ -23,3 +23,15 @@ care_home_2223 <- read_slf_episode(
   ),
   recids = "CH"
 )
+
+library(ggplot2)
+care_home_2223 |>
+  filter(sc_send_lca == 24L) |>
+  ggplot(aes(x = ch_name, fill = factor(ch_adm_reason))) +
+  geom_bar() +
+  labs(
+    title = "Admission type by Care Home",
+    x = "Care Home Name",
+    y = "Count of episodes",
+    fill = "Admission Reason"
+  )
