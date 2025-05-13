@@ -41,9 +41,7 @@ gp_data <- gp_data |>
   group_by(practice_name) |>
   mutate(
     # Add some baseline variation and a slight trend component
-    value = round(50 + cumsum(rnorm(n(), mean = 0, sd = 5)) + seq(0, 5, length.out = n()), 1),
-    # Ensure value is not negative
-    value = pmax(0, value)
+    value = round(50 + cumsum(runif(n(), min = -10, max = 10)) + seq(0, 5, length.out = n()), 1)
   ) |>
   ungroup() |>
   # Format month for better display
