@@ -123,9 +123,9 @@ bscols(
 
 1.  **Data Preparation**: We created a tidy data frame (`gp_data`) with columns for practice name, month, and a simulated value.
 2.  **Shared Data**: The `SharedData$new()` function wraps our data frame. We specify `key = ~practice_name` so that `crosstalk` knows which variable links selections across different components (the filter, plot, and table). The `group` argument ensures that widgets intended to work together share the same selection scope.
-3.  **Filter Control**: `filter_select()` creates a dropdown/select input. It's linked to the `shared_gp_data` via the `sharedData` argument and targets the `practice_name` column via the `group` argument.
+3.  **Filter Control**: `filter_select()` creates a drop-down/select input. It's linked to the `shared_gp_data` via the `sharedData` argument and targets the `practice_name` column via the `group` argument.
 4.  **Plotly Plot**: `plot_ly()` is called directly on the `shared_gp_data` object. Plotly automatically understands how to interact with `SharedData` objects, filtering the data based on the current selection from the `filter_select` widget.
 5.  **DT Table**: Similarly, `datatable()` is called on the `shared_gp_data` object. It filters its display based on the selection.
 6.  **Layout**: `bscols()` (from `crosstalk`) arranges the plot and table side-by-side for a cleaner layout.
 
-When you select one or more practices from the filter dropdown, both the plot and the table will instantly update to show only the data for the selected practices.
+When you select one or more practices from the filter drop-down, both the plot and the table will instantly update to show only the data for the selected practices.
