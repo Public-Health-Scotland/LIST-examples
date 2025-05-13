@@ -97,11 +97,18 @@ plot_gp <- plot_ly(
 table_gp <- datatable(
   shared_gp_data,
   rownames = FALSE, # Don't show row numbers
-  colnames = c("Practice Name", "Month", "Value", "Month Display"), # Nicer column names
+  colnames = c( # Nicer column names
+    "Practice Name" = "practice_name",
+    "Month" = "month_display",
+    "Value" = "value"
+  ),
   filter = "none", # Disable individual column filters as we have the main filter
   options = list(
     pageLength = 10, # Show 10 rows per page
-    autoWidth = TRUE
+    autoWidth = TRUE,
+    columnDefs = list(
+      list(visible = FALSE, targets = 1) # Hide the second column ('month') (index starts at 0)
+    )
   )
 )
 ```
