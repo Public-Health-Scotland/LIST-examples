@@ -89,8 +89,7 @@ plot_gp <- plot_ly(
   layout(
     title = "Monthly Value per GP Practice",
     xaxis = list(title = "Month"),
-    yaxis = list(title = "Value"),
-    hovermode = "closest" # Improve hover experience
+    yaxis = list(title = "Value")
   )
 ```
 
