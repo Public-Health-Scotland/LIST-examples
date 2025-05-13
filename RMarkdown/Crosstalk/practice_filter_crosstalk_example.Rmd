@@ -47,7 +47,7 @@ gp_data <- gp_data |>
   ) |>
   ungroup() |>
   # Format month for better display
-  mutate(month_display = format(month, "%Y-%m"))
+  mutate(month_display = format(month, "%b-%y"))
 ```
 
 ## Interactive Visualization and Table
