@@ -111,7 +111,12 @@ table_gp <- datatable(
 ```{r display_elements}
 # Display the plot and table
 # They will react to the filter selection above
-bscols(plot_gp, table_gp, widths = c(6, 6)) # Arrange plot and table side-by-side
+bscols(
+  plot_gp, 
+  table_gp, 
+  widths = c(6, 6), # Total 'columns' is always 12 
+  device = "lg" # Use columns on a 'large' screen but collapse on a smaller one.
+  )  
 ```
 
 ## Explanation
