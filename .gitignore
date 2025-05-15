@@ -30,3 +30,6 @@ data/
 
 # MacOS folder attributes files #
 .DS_Store
+
+# HTML files
+*.[hH][tT][mM][lL]
