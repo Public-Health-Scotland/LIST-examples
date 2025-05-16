@@ -1,6 +1,6 @@
 ## Git Terminal Cheat Sheet
 
-This cheat sheet is for RStudio users moving from the Git pane to the terminal, with a focus on working with GitHub. It covers basic navigation and core Git commands you'll find most useful.
+This cheat sheet is designed to introduce some useful terminal commands, specifically for working with Git and GitHub. While you can accomplish many tasks using the RStudio GUI (Graphical User Interface), this document will be most helpful once you are somewhat comfortable with that interface and want to explore more features of git.
 
 ### Basic Terminal Commands
 
