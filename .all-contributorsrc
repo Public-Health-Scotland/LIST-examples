@@ -3,9 +3,9 @@
     "README.md"
   ],
   "imageSize": 100,
-  "commit": false,
+  "commit": true,
   "commitType": "docs",
-  "commitConvention": "angular",
+  "commitConvention": "gitmoji",
   "contributors": [
     {
       "login": "Moohan",
