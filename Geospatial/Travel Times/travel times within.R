@@ -17,8 +17,14 @@ source("Geospatial/Travel Times/travel times functions.R")
 locality <- "North Perthshire"
 
 # Read in the locality shapefile
-shapefiles_folder <- file.path("/conf/linkage/output/lookups/Unicode/Geography/Shapefiles")
-locality_shp <- read_sf(file.path(shapefiles_folder, "HSCP Locality (Datazone2011 Base)", "HSCP_Locality.shp")) %>%
+shapefiles_folder <- file.path(
+  "/conf/linkage/output/lookups/Unicode/Geography/Shapefiles"
+)
+locality_shp <- read_sf(file.path(
+  shapefiles_folder,
+  "HSCP Locality (Datazone2011 Base)",
+  "HSCP_Locality.shp"
+)) %>%
   # converts the shapefile to use latitude and longitude
   st_transform(4326) %>% # EPSG4326
   rename(hscp_locality = hscp_local) %>%
@@ -34,12 +40,16 @@ localities <- read_rds(file.path(
   select(datazone2011, hscp_locality)
 
 # Get GP Practices and filter to those in the locality
-gp_practices <- read_parquet("/conf/linkage/output/lookups/Unicode/Geography/Scottish Postcode Directory/Scottish_Postcode_Directory_2023_2.parquet",
+gp_practices <- read_parquet(
+  "/conf/linkage/output/lookups/Unicode/Geography/Scottish Postcode Directory/Scottish_Postcode_Directory_2023_2.parquet",
   col_select = c(pc7, latitude, longitude, datazone2011)
 ) %>%
   left_join(localities, by = join_by(datazone2011)) %>%
   filter(hscp_locality == locality) %>%
-  left_join(read_csv(file.path("/conf/linkage/output/lookups/Unicode/National Reference Files/gpprac.csv")),
+  left_join(
+    read_csv(file.path(
+      "/conf/linkage/output/lookups/Unicode/National Reference Files/gpprac.csv"
+    )),
     by = join_by(pc7 == postcode)
   ) %>%
   drop_na(praccode)
@@ -47,7 +57,8 @@ gp_practices <- read_parquet("/conf/linkage/output/lookups/Unicode/Geography/Sco
 # Get locations to test
 # For the purposes of this I'm using a random selection of postcodes from within the locality
 # In practice you would likely have this already (e.g. list of postcodes for patients within a practice)
-patients <- read_parquet("/conf/linkage/output/lookups/Unicode/Geography/Scottish Postcode Directory/Scottish_Postcode_Directory_2023_2.parquet",
+patients <- read_parquet(
+  "/conf/linkage/output/lookups/Unicode/Geography/Scottish Postcode Directory/Scottish_Postcode_Directory_2023_2.parquet",
   col_select = c(pc7, latitude, longitude, datazone2011)
 ) %>%
   left_join(localities, by = join_by(datazone2011)) %>%
@@ -56,7 +67,12 @@ patients <- read_parquet("/conf/linkage/output/lookups/Unicode/Geography/Scottis
 
 
 # use get_travel_areas() to obtain travel areas for 10 minute drive - this time not bothered about within_region
-car <- get_travel_areas(gp_practices$longitude, gp_practices$latitude, travel_time = 10, travel_method = "car")
+car <- get_travel_areas(
+  gp_practices$longitude,
+  gp_practices$latitude,
+  travel_time = 10,
+  travel_method = "car"
+)
 
 # use get_locations_within() to obtain a list of the postcodes within 10 minute drive of a GP practice
 within_10min_drive <- get_locations_within(patients, car)
@@ -70,7 +86,12 @@ locality_shp %>%
   # Within 10 minutes drive
   addPolygons(data = car, color = "red") %>%
   # Markers for people within 10 minute drive (all are within the driveable areas)
-  addCircleMarkers(data = within_10min_drive, radius = 1, color = "blue", opacity = 1)
+  addCircleMarkers(
+    data = within_10min_drive,
+    radius = 1,
+    color = "blue",
+    opacity = 1
+  )
 
 # compare this to all selected postcodes:
 locality_shp %>%
