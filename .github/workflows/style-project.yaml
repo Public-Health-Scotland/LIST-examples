@@ -16,6 +16,9 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }} 
+          fetch-depth: 0  # Fetch full history for accurate diff
 
       - name: Install air
         uses: posit-dev/setup-air@v1
