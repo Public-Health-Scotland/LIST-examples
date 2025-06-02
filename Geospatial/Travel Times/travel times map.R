@@ -21,7 +21,11 @@ lookups_folder <- file.path("/conf/linkage/output/lookups/Unicode")
 
 # Read in the locality shapefile
 shapefiles_folder <- file.path(lookups_folder, "Geography/Shapefiles")
-locality_shp <- read_sf(file.path(shapefiles_folder, "HSCP Locality (Datazone2011 Base)", "HSCP_Locality.shp")) %>%
+locality_shp <- read_sf(file.path(
+  shapefiles_folder,
+  "HSCP Locality (Datazone2011 Base)",
+  "HSCP_Locality.shp"
+)) %>%
   # converts the shapefile to use latitude and longitude
   st_transform(4326) %>% # EPSG4326
   rename(hscp_locality = hscp_local) %>%
@@ -29,17 +33,26 @@ locality_shp <- read_sf(file.path(shapefiles_folder, "HSCP Locality (Datazone201
   filter(hscp_locality == locality)
 
 # Get locality data
-localities <- read_rds(file.path(lookups_folder, "Geography", "HSCP Locality/HSCP Localities_DZ11_Lookup_20230804.rds")) %>%
+localities <- read_rds(file.path(
+  lookups_folder,
+  "Geography",
+  "HSCP Locality/HSCP Localities_DZ11_Lookup_20230804.rds"
+)) %>%
   # Choose the required columns
   select(datazone2011, hscp_locality)
 
 # Get GP Practices and filter to those in the locality
-gp_practices <- read_parquet(file.path(lookups_folder, "Geography/Scottish Postcode Directory/Scottish_Postcode_Directory_2023_2.parquet"),
+gp_practices <- read_parquet(
+  file.path(
+    lookups_folder,
+    "Geography/Scottish Postcode Directory/Scottish_Postcode_Directory_2023_2.parquet"
+  ),
   col_select = c(pc7, latitude, longitude, datazone2011)
 ) %>%
   left_join(localities, by = join_by(datazone2011)) %>%
   filter(hscp_locality == locality) %>%
-  left_join(read_csv(file.path(lookups_folder, "National Reference Files/gpprac.csv")),
+  left_join(
+    read_csv(file.path(lookups_folder, "National Reference Files/gpprac.csv")),
     by = join_by(pc7 == postcode)
   ) %>%
   drop_na(praccode)
@@ -47,9 +60,27 @@ gp_practices <- read_parquet(file.path(lookups_folder, "Geography/Scottish Postc
 # use get_travel_areas() to obtain travel areas for car, bike and foot
 # using within_region to restrict to locality only - within_region can be omitted
 # completely if you don't want to restrict
-car <- get_travel_areas(gp_practices$longitude, gp_practices$latitude, travel_time = 10, travel_method = "car", within_region = locality_shp)
-bike <- get_travel_areas(gp_practices$longitude, gp_practices$latitude, travel_time = 10, travel_method = "bike", within_region = locality_shp)
-foot <- get_travel_areas(gp_practices$longitude, gp_practices$latitude, travel_time = 10, travel_method = "foot", within_region = locality_shp)
+car <- get_travel_areas(
+  gp_practices$longitude,
+  gp_practices$latitude,
+  travel_time = 10,
+  travel_method = "car",
+  within_region = locality_shp
+)
+bike <- get_travel_areas(
+  gp_practices$longitude,
+  gp_practices$latitude,
+  travel_time = 10,
+  travel_method = "bike",
+  within_region = locality_shp
+)
+foot <- get_travel_areas(
+  gp_practices$longitude,
+  gp_practices$latitude,
+  travel_time = 10,
+  travel_method = "foot",
+  within_region = locality_shp
+)
 
 # plot map
 locality_shp %>%
@@ -72,4 +103,8 @@ locality_shp %>%
       "Latitude: {latitude}, Longitude: {longitude}"
     )
   ) %>%
-  addLegend(colors = c("red", "blue", "green"), labels = c("Drive", "Cycle", "Walk"), title = "Within 10 minute...")
+  addLegend(
+    colors = c("red", "blue", "green"),
+    labels = c("Drive", "Cycle", "Walk"),
+    title = "Within 10 minute..."
+  )
