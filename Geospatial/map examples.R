@@ -19,7 +19,11 @@ list.files(shapefiles_folder)
 
 # Datazone shapefile from Shapefiles/Data Zone 2011/ folder
 # .shp files are read in
-datazone_shp <- read_sf(file.path(shapefiles_folder, "Data Zones 2011", "SG_DataZone_Bdry_2011.shp")) |>
+datazone_shp <- read_sf(file.path(
+  shapefiles_folder,
+  "Data Zones 2011",
+  "SG_DataZone_Bdry_2011.shp"
+)) |>
   # converts the shapefile to use latitude and longitude
   st_transform(4326) # EPSG4326
 
@@ -61,7 +65,9 @@ hscp_dz_shp |>
 # Joining data onto shapefile ####
 # SIMD file
 # SIMD2020v2
-simd <- readRDS("/conf/linkage/output/lookups/Unicode/Deprivation/DataZone2011_simd2020v2.rds") |>
+simd <- readRDS(
+  "/conf/linkage/output/lookups/Unicode/Deprivation/DataZone2011_simd2020v2.rds"
+) |>
   # Choose the required columns
   select(datazone2011, simd2020v2_sc_decile, simd2020v2_sc_quintile)
 
@@ -144,7 +150,7 @@ hscp_dz_shp |>
     # Values to use in legend
     # values are displayed by using fct_rev() function from forcats. e.g.
     # values =  ~ fct_rev(simd2020v2_sc_decile)
-    values = ~ simd2020v2_sc_decile,
+    values = ~simd2020v2_sc_decile,
     position = "bottomright",
     title = "SIMD 2020 Decile"
   ) |>
@@ -169,7 +175,8 @@ library(arrow)
 pc_lookup <- read_parquet(
   file.path(
     "/conf/linkage/output/lookups/Unicode/Geography",
-    "Scottish Postcode Directory", "Scottish_Postcode_Directory_2023_2.parquet"
+    "Scottish Postcode Directory",
+    "Scottish_Postcode_Directory_2023_2.parquet"
   ),
   col_select = c(pc7, latitude, longitude, hscp2019name)
 ) |>
@@ -242,7 +249,7 @@ hscp_dz_shp |>
     pal = pal_decile,
     # Transparency of colours defined in pal
     opacity = 1,
-    values = ~ simd2020v2_sc_decile,
+    values = ~simd2020v2_sc_decile,
     position = "bottomright",
     title = "SIMD 2020 Decile",
     ### Assign group to toggle legend on or off ####
@@ -260,7 +267,7 @@ hscp_dz_shp |>
   ) |>
   addAwesomeMarkers(
     data = sample_postcodes2,
-    icon = ~ sample_postcodes2_icon,
+    icon = ~sample_postcodes2_icon,
     popup = ~ glue(
       "Postcode: {postcode}<br>",
       "Latitude: {latitude}, Longitude: {longitude}"
