@@ -34,17 +34,19 @@ get_travel_areas <- function(
   # Combine into a single area to make plotting easier
   # suppress warnings related to assumptions being made about spatial attributes
   # there is one wanring for each area merged which isn't relevant as all areas are generated using the same crs
-  iso <- suppressWarnings(purrr::reduce(iso, \(x, y) {
-    st_union(st_make_valid(x), y)
-  }))
+  iso <- suppressWarnings(purrr::reduce(
+    iso,
+    \(x, y) st_union(st_make_valid(x), y)
+  ))
 
   # Remove odd small regions
   # [[1]] subsetting needed as the geometry column is a list with one entry because of st_union()
   if (inherits(iso$geometry, "sfc_MULTIPOLYGON")) {
     iso_geometry <- unlist(iso$geometry, recursive = FALSE)
-    small_area <- purrr::map_lgl(unlist(iso_geometry, recursive = FALSE), \(x) {
-      nrow(x) <= 5
-    })
+    small_area <- purrr::map_lgl(
+      unlist(iso_geometry, recursive = FALSE),
+      \(x) nrow(x) <= 5
+    )
     st_geometry(iso) <- st_sfc(
       st_multipolygon(iso_geometry[!small_area]),
       crs = 4326

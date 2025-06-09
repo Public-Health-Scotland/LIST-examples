@@ -1,0 +1,29 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": true,
+  "commitType": "docs",
+  "commitConvention": "gitmoji",
+  "contributors": [
+    {
+      "login": "Moohan",
+      "name": "James McMahon",
+      "avatar_url": "https://avatars.githubusercontent.com/u/5982260?v=4",
+      "profile": "https://publichealthscotland.scot/",
+      "contributions": [
+        "code",
+        "review",
+        "maintenance",
+        "projectManagement"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "skipCi": true,
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "projectName": "LIST-examples",
+  "projectOwner": "Public-Health-Scotland"
+}
