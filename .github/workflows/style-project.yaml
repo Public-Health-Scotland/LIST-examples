@@ -27,7 +27,7 @@ jobs:
         run: air format .
 
       - name: Commit and push changes
-        uses: stefanzweifel/git-auto-commit-action@v5
+        uses: stefanzweifel/git-auto-commit-action@v6
         with:
           commit_message: "Style code"
           skip_checkout: true
