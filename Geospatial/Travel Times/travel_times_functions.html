@@ -1,3 +1,11 @@
+---
+layout: r-script
+title: Travel Times Functions
+description: Functions to use osrm functionality for travel time analysis
+path: Geospatial/Travel Times/travel times functions.R
+---
+
+{% raw %}
 # get_travel_areas - Function to obtain the area that is travellable from location (longitude, latitude) within
 #                    a specified travel_time using a particular travel_method.
 # - longitude     - vector of longitudes of locations being travelled from
@@ -107,3 +115,4 @@ get_iso <- function(lon, lat, travel_time, travel_method) {
     )
   )
 }
+{% endraw %}

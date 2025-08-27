@@ -1,3 +1,11 @@
+---
+layout: r-script
+title: Travel Times Map
+description: Creating maps showing travellable areas from a location within specific times
+path: Geospatial/Travel Times/travel times map.R
+---
+
+{% raw %}
 # needed for managing travel times data
 library(tidyverse)
 library(sf)
@@ -108,3 +116,4 @@ locality_shp %>%
     labels = c("Drive", "Cycle", "Walk"),
     title = "Within 10 minute..."
   )
+{% endraw %}

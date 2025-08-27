@@ -1,3 +1,11 @@
+---
+layout: r-script
+title: Map Examples
+description: 3 examples building an interactive map using leaflet from Datazone shapefiles
+path: Geospatial/map examples.R
+---
+
+{% raw %}
 # Load libraries ####
 # if any package not installed use install.packages("package")
 library(dplyr)
@@ -289,3 +297,4 @@ hscp_dz_shp |>
   # can change this using hideGroup
   hideGroup("PC Sample 2") |>
   addProviderTiles(provider = providers[["OpenStreetMap"]])
+{% endraw %}

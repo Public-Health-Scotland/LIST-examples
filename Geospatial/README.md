@@ -1,3 +1,9 @@
+---
+layout: default
+title: Geospatial Examples
+description: Examples related to geospatial and making maps
+---
+
 # Geospatial
 
 Examples related to geospatial and making maps.

@@ -1,12 +1,18 @@
+---
+layout: default
+title: LIST code examples
+description: A collection of best practice examples for use by LIST team members
+---
+
 # LIST-examples
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 A collection of best practice examples for use by LIST team members.
 
- * A Git / GitHub initial setup guide - [set-up-GitHub.md]()
- * [Geospatial examples](Geospatial)
- * [SMRA examples](SMRA)
+ * A Git / GitHub initial setup guide - [set-up-GitHub.md](set-up-GitHub.html)
+ * [Geospatial examples](Geospatial/)
+ * [SMRA examples](SMRA/)
 
 ## Using the examples
 The simplest (and recommended) way to use these examples is to copy and paste the code as needed, into your scripts.

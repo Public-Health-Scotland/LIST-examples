@@ -1,0 +1,20 @@
+---
+layout: default
+---
+
+<h1>{{ page.title }}</h1>
+
+{% if page.description %}
+<p><em>{{ page.description }}</em></p>
+{% endif %}
+
+<div class="r-script-content">
+  <pre><code class="language-r">{{ content }}</code></pre>
+</div>
+
+<hr>
+<p><small>
+  <a href="{{ site.github.repository_url }}/blob/main/{{ page.path }}">
+    View this file on GitHub
+  </a>
+</small></p>

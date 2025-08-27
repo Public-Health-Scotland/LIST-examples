@@ -1,3 +1,11 @@
+---
+layout: r-script
+title: SMR01 CIS-level Extract
+description: An extract from SMR01 which extracts all episodes from a CIS where any episode meets criteria
+path: SMRA/SM01 CIS-level extract.R
+---
+
+{% raw %}
 # This is an option for extracting CIS level data directly
 # We need the data to be sorted and to take the first and last for
 # each CIS - this is what causes issues.
@@ -72,3 +80,4 @@ cis_data <- tbl(smra_conn, in_schema("ANALYSIS", "SMR01_PI")) |>
   clean_names() |>
   show_query() |>
   collect()
+{% endraw %}

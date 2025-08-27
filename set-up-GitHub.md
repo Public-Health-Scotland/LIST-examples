@@ -1,3 +1,9 @@
+---
+layout: default
+title: Setting Up Git for PHS Posit Users
+description: Instructions for setting up GitHub account and configuring Git access
+---
+
 ## Setting Up Git for PHS Posit Users
 
 These instructions guide you through setting up a GitHub account and configuring Git access to work with the Public Health Scotland (PHS) Posit infrastructure.

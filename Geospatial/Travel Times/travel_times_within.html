@@ -1,3 +1,11 @@
+---
+layout: r-script
+title: Travel Times Within Analysis
+description: Extract locations within a certain travel time of another location
+path: Geospatial/Travel Times/travel times within.R
+---
+
+{% raw %}
 # needed for managing travel times data
 library(tidyverse)
 library(sf)
@@ -103,3 +111,4 @@ locality_shp %>%
   addPolygons(data = car, color = "red") %>%
   # All patients
   addCircleMarkers(data = patients, radius = 1, color = "blue", opacity = 1)
+{% endraw %}

@@ -1,32 +1,51 @@
-.Rproj.user
+# History files
 .Rhistory
+.Rapp.history
+
+# Session Data files
 .RData
+
+# User-specific files
 .Ruserdata
-*.Rproj
 
-# 'data' folder #
-data/
+# Example code in package build process
+*-Ex.R
 
-# Common text files that may contain data #
-*.[cC][sS][vV]
-*.[cC][sS][vV].*
-*.[tT][xX][tT]
+# Output files from R CMD build
+/*.tar.gz
 
-# Excel files #
-*.[xX][lL][sS]*
+# Output files from R CMD check
+/*.Rcheck/
 
-# SPSS formats #
-*.[sS][aA][vV]
-*.[zZ][sS][aA][vV]
+# RStudio files
+.Rproj.user/
 
-# R data files #
-*.[rR][dD][aA][tT][aA]
-*.[rR][dD][sS]
+# produced vignettes
+vignettes/*.html
+vignettes/*.pdf
 
-# Cross platform data files #
-*.[pP][aA][rR][qQ][uU][eE][tT]
-*.[fF][sS][tT]
-*.[qQ][sS]
+# OAuth2 token, see https://github.com/hadley/httr/releases/tag/v0.3
+.httr-oauth
 
-# MacOS folder attributes files #
-.DS_Store
+# knitr and R markdown default cache directories
+*_cache/
+/cache/
+
+# Temporary files created by R markdown
+*.utf8.md
+*.knit.md
+
+# R Environment Variables
+.Renviron
+
+# pkgdown site
+docs/
+
+# translation temp files
+po/*~
+
+# Jekyll build artifacts
+_site/
+.sass-cache/
+.jekyll-cache/
+.jekyll-metadata

@@ -1,3 +1,9 @@
+---
+layout: default
+title: SMRA Examples
+description: Example scripts for extracting from and working with SMRA data
+---
+
 # SMRA
 
 Example scripts for extracting from and working with SMRA data. This includes SMR01, SMR02, SMR04, GRO_Deaths etc.

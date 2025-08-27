@@ -3,3 +3,32 @@ description: A collection of best practice examples for use by LIST team members
 show_downloads: false
 google_analytics:
 theme: jekyll-theme-minimal
+
+# Include subdirectories
+include:
+  - Geospatial
+  - SMRA
+  - RMarkdown
+
+# Markdown settings
+markdown: kramdown
+highlighter: rouge
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+
+# Plugins
+plugins:
+  - jekyll-seo-tag
+
+# Set default layout for different file types
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "default"
+  - scope:
+      path: "*.md"
+    values:
+      layout: "default"

@@ -1,3 +1,11 @@
+---
+layout: r-script
+title: Simple SMR01 Extract
+description: A simple extract from SMR01, including the standard connection to SMRA
+path: SMRA/Simple SMR01 extract.R
+---
+
+{% raw %}
 # Install packages (if required)
 # install.packages("odbc")
 # install.packages("dplyr")
@@ -42,3 +50,4 @@ smr01_extract <- collect(smr01_query)
 # close and remove the connection
 dbDisconnect(smra_conn)
 rm(smra_conn)
+{% endraw %}
