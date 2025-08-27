@@ -30,4 +30,3 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v6
         with:
           commit_message: "Style code"
-          skip_checkout: true
