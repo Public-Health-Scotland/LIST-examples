@@ -1,36 +1,40 @@
 # Best Practice for Storing GitHub Clones in LIST
 
-This guide outlines best practices for storing GitHub clones in LIST. Following these recommendations helps keep everyone’s work organised and secure.
+This guide describes best practices for storing GitHub clones in LIST. Following these recommendations helps keep everyone's work organised and secure. We have considered several options for managing this and have decided on the following.
 
 ## Store Clones in a Personal Folder in LIST_analytics
 
 ### How to do it
-- A personal folder should exist for you directly under `/conf/LIST_analytics/` (e.g., `/conf/LIST_analytics/alice/`). If this folder does not exist, create your own directory with the same structure .
-- Clone projects into this personal folder.
-- **Do not** create or store any `data` folders or files inside your personal area — data should not be tracked by git, and also needs to be accessible by the whole team, so it should go in the team/project folder.
-- For security, set the folder permissions so that only you can read, write, or execute files in your folder (see below).
 
-#### How to create Your Personal Folder Securely in R
+- A personal folder should exist for you directly under `/conf/LIST_analytics/git_clones` (e.g., `/conf/LIST_analytics/git_clones/alice1/`).
+  - If this folder does not exist, create your own directory with the same structure. For security, set the folder permissions so that only you can read, write, or execute files in your folder (see below).
+- Clone projects into this personal folder.
+- **Do not create or store any `data` folders or files inside your personal area** — data should not be tracked by git, and also needs to be accessible by the whole team, so it should go in the team/project folder.
+
+#### How to create your Personal Folder securely in R
+
+*These folders have already been created for most staff using your LDAP username, so these instructions are only relevant for new staff*
+
 Use `{fs}` to create your personal directory with permissions set for 'owner' only:
 
 ```r
 install.packages("fs")
-fs::dir_create("/conf/LIST_analytics/alice", mode = "u=rwx")
+fs::dir_create("/conf/LIST_analytics/alice1", mode = "u=rwx")
 ```
 - Replace `"alice"` with your username.
 - The `mode = "u=rwx"` option ensures that only you (the owner) have permissions; no group or other access.
 
-#### Example Directory Structure
+### Example Directory Structure
 ```
 /conf/LIST_analytics/
 │
 ├── git_clones/
-|   ├── alice/
+|   ├── alice1/
 │   |   └── project_1_github_clone/
-│   ├── bob/
+│   ├── bob2/
 │   │   ├── project_1_github_clone/
 │   │   └── project_2_github_clone/
-│   ├── charlie/
+│   ├── charlie1/
 │   │   └── project_2_github_clone/
 ├── Lanarkshire/
 │   ├── project_1/
