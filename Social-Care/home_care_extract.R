@@ -1,9 +1,11 @@
-library(dplyr)
-library(slfhelper)
+library(dplyr) # install.packages("dplyr")
+library(slfhelper) # remotes::install_github("Public-Health-Scotland/slfhelper")
 
 # View available variables (optional)
+# All of these objects are provided by slfhelper
 ep_file_vars
 sort(ep_file_vars) # Might be easier to view!
+ep_file_bedday_vars
 demog_vars
 ltc_vars
 
