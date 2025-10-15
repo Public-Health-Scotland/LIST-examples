@@ -29,9 +29,14 @@ care_home_2425 <- read_slf_episode(
   recids = "CH" # Only Care Home episodes
 )
 
+# Use the built-in data to match on Local Authority
+gla_care_home_2425 <- care_home_2425 |> 
+  mutate(sc_send_lca = sc_send_lca) |> 
+  left_join(sc_partnerships, join_by(sc_send_lca == lca)) |> 
+  filter(partnership_name == "Fife")
+
 library(ggplot2)
-care_home_2223 |>
-  filter(sc_send_lca == 24L) |>
+gla_care_home_2425 |>
   ggplot(aes(x = ch_name, fill = factor(ch_adm_reason))) +
   geom_bar() +
   labs(
