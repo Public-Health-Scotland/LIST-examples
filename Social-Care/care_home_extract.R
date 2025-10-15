@@ -10,9 +10,9 @@ demog_vars
 ltc_vars
 
 
-# Extract all Care Home data for 2223
-care_home_2223 <- read_slf_episode(
-  year = "2223",
+# Extract all Care Home data for 2024/25
+care_home_2425 <- read_slf_episode(
+  year = "2425",
   # This will be a lot of (52) variables, so should be reduced as needed.
   col_select = c(
     "anon_chi",
