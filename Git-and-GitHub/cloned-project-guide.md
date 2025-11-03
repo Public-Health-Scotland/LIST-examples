@@ -11,6 +11,8 @@ This guide describes best practices for storing GitHub clones in LIST. Following
 - Clone projects into this personal folder.
 - **Do not create or store any `data` folders or files inside your personal area** — data should not be tracked by git, and also needs to be accessible by the whole team, so it should go in the team/project folder.
 
+**Note** To make it easy to access your `git_clones` folder from RStudio on Posit Workbench you can create a shortcut (called a symbolic link in Linux terminology): In a new session (no project) open a terminal and run `ln -s /conf/LIST_analytics/git_clones/<your_username>` This will create a folder called `<your_username>` in your RStudio home directory this will function like a real folder but is actually only a shortcut.
+
 ### Example Directory Structure
 ```
 /conf/LIST_analytics/
