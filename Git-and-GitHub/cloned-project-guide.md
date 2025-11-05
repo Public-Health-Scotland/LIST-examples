@@ -11,18 +11,7 @@ This guide describes best practices for storing GitHub clones in LIST. Following
 - Clone projects into this personal folder.
 - **Do not create or store any `data` folders or files inside your personal area** — data should not be tracked by git, and also needs to be accessible by the whole team, so it should go in the team/project folder.
 
-#### How to create your Personal Folder securely in R
-
-*These folders have already been created for most staff using your LDAP username, so these instructions are only relevant for new staff*
-
-Use `{fs}` to create your personal directory with permissions set for 'owner' only:
-
-```r
-install.packages("fs")
-fs::dir_create("/conf/LIST_analytics/alice1", mode = "u=rwx")
-```
-- Replace `"alice"` with your username.
-- The `mode = "u=rwx"` option ensures that only you (the owner) have permissions; no group or other access.
+**Note** To make it easy to access your `git_clones` folder from RStudio on Posit Workbench you can create a shortcut (called a symbolic link in Linux terminology): In a new session (no project) open a terminal and run `ln -s /conf/LIST_analytics/git_clones/<your_username>` This will create a folder called `<your_username>` in your RStudio home directory this will function like a real folder but is actually only a shortcut.
 
 ### Example Directory Structure
 ```
@@ -58,3 +47,16 @@ fs::dir_create("/conf/LIST_analytics/alice1", mode = "u=rwx")
 - Less aligned with existing team workflows.
 - If not all projects are managed with GitHub, this approach will create a split system, possibly creating confusion.
 - Extra care is needed to set folder permissions properly; otherwise, code could be accidentally exposed or inaccessible.
+
+### How to create your Personal Folder securely in R
+
+*These folders have already been created for most staff using your LDAP username, so these instructions are only relevant for new staff*
+
+Use `{fs}` to create your personal directory with permissions set for 'owner' only:
+
+```r
+install.packages("fs")
+fs::dir_create("/conf/LIST_analytics/alice1", mode = "u=rwx")
+```
+- Replace `"alice"` with your username.
+- The `mode = "u=rwx"` option ensures that only you (the owner) have permissions; no group or other access.
