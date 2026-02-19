@@ -1,5 +1,5 @@
 library(dplyr) # install.packages("dplyr")
-library(slfhelper) # remotes::install_github("Public-Health-Scotland/slfhelper")
+library(slfhelper) # install.packages("slfhelper")
 
 # View available variables (optional)
 # All of these objects are provided by slfhelper
