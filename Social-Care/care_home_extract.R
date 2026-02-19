@@ -30,9 +30,9 @@ care_home_2425 <- read_slf_episode(
 )
 
 # Use the built-in data to match on Local Authority
-gla_care_home_2425 <- care_home_2425 |> 
-  mutate(sc_send_lca = sc_send_lca) |> 
-  left_join(sc_partnerships, join_by(sc_send_lca == lca)) |> 
+gla_care_home_2425 <- care_home_2425 |>
+  mutate(sc_send_lca = sc_send_lca) |>
+  left_join(sc_partnerships, join_by(sc_send_lca == lca)) |>
   filter(partnership_name == "Fife")
 
 library(ggplot2)
