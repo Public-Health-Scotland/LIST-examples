@@ -2,6 +2,7 @@
 # if any package not installed use install.packages("package")
 library(dplyr)
 library(glue)
+library(phslookups)
 
 # Mapping Packages
 # For installation instructions see the following link
@@ -14,10 +15,12 @@ library(leaflet)
 library(sf)
 
 # List different shapefiles in the shapefile folder
-shapefiles_folder <- "/conf/linkage/output/lookups/Unicode/Geography/Shapefiles"
+shapefiles_folder <- file.path(
+  "/conf/linkage/output/lookups/Unicode/Geography/Shapefiles"
+)
 list.files(shapefiles_folder)
 
-# Datazone shapefile from Shapefiles/Data Zone 2011/ folder
+# Datazone shapefile from Shapefiles/Data Zone 2011 folder
 # .shp files are read in
 datazone_shp <- read_sf(file.path(
   shapefiles_folder,
@@ -27,17 +30,20 @@ datazone_shp <- read_sf(file.path(
   # converts the shapefile to use latitude and longitude
   st_transform(4326) # EPSG4326
 
-# Map 1: Choose an HSCP and plot a map ####
+hscp_lookup <- get_spd(col_select = c(datazone2011, hscp2019name)) |>
+  distinct(datazone2011, hscp2019name)
+
+# Map 1: Choose an HSCP and plot a map
 hscp <- "West Dunbartonshire"
 
-# selecting and rename columns of interest and bring to hscp level
+# selecting and rename columns of interest and bring to HSCP level
 hscp_dz_shp <- datazone_shp |>
   select(
     datazone2011 = DataZone,
     datazone2011name = Name,
-    hscp2019name = hscp2019na,
     geometry
   ) |>
+  left_join(hscp_lookup, by = join_by(datazone2011)) |>
   filter(hscp2019name == hscp)
 
 # plot map
@@ -56,7 +62,7 @@ hscp_dz_shp |>
     # detail level of polygon (higher number = less accurate representation & better performance)
     smoothFactor = 1
   ) |>
-  # Setting map prvider for map background
+  # Setting map provider for map background
   # you can see the list by typing providers$ or visiting the following link
   # # http://leaflet-extras.github.io/leaflet-providers/preview/index.html
   addProviderTiles(provider = providers[["OpenStreetMap"]])
@@ -65,19 +71,18 @@ hscp_dz_shp |>
 # Joining data onto shapefile ####
 # SIMD file
 # SIMD2020v2
-simd <- readRDS(
-  "/conf/linkage/output/lookups/Unicode/Deprivation/DataZone2011_simd2020v2.rds"
-) |>
-  # Choose the required columns
-  select(datazone2011, simd2020v2_sc_decile, simd2020v2_sc_quintile)
+simd <- get_simd_datazone(
+  simd_version = "2020v2",
+  col_select = c(datazone2011, simd2020v2_sc_decile, simd2020v2_sc_quintile)
+)
 
 # SIMD deciles
 simd_deciles_levels <- c("1 (Most Deprived)", 2:9, "10 (Least Deprived)")
 
-# join simd data for chosen hscp to hscp_dz_shp
+# join SIMD data for chosen HSCP to hscp_dz_shp
 hscp_dz_shp <- hscp_dz_shp |>
   left_join(simd, by = join_by(datazone2011)) |>
-  # simd deciles are numeric values but to add a bit more detail
+  # SIMD deciles are numeric values but to add a bit more detail
   # change to a factor to indicate the most and least deprived deciles
   mutate(
     simd2020v2_sc_decile = case_match(
@@ -92,7 +97,7 @@ hscp_dz_shp <- hscp_dz_shp |>
     )
   )
 
-# Add colours representing simd deciles ####
+# Add colours representing SIMD deciles ####
 
 # More examples can be found here:
 # https://rstudio.github.io/leaflet/colors.html
@@ -116,7 +121,7 @@ pal_decile <- colorFactor(
 )
 
 
-# Map 2: Plot map with simd ####
+# Map 2: Plot map with SIMD ####
 hscp_dz_shp |>
   leaflet() |>
   addPolygons(
@@ -172,12 +177,8 @@ hscp_dz_shp |>
 library(arrow)
 
 ## Postcode lookup for markers ####
-pc_lookup <- read_parquet(
-  file.path(
-    "/conf/linkage/output/lookups/Unicode/Geography",
-    "Scottish Postcode Directory",
-    "Scottish_Postcode_Directory_2023_2.parquet"
-  ),
+pc_lookup <- get_spd(
+  version = "2023_2",
   col_select = c(pc7, latitude, longitude, hscp2019name)
 ) |>
   filter(hscp2019name == hscp) |>
