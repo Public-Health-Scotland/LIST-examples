@@ -1,14 +1,10 @@
 # Load libraries ####
-# if any package not installed use install.packages("package")
+# if any package is not installed, use install.packages("package")
 library(dplyr)
 library(glue)
 library(phslookups)
 
 # Mapping Packages
-# For installation instructions see the following link
-# (shift + left click to open)
-# https://public-health-scotland.github.io/knowledge-base/docs/Posit%20Infrastructure?doc=How%20to%20Install%20and%20Use%20Geospatial%20R%20Packages.md
-# leaflet documentation can be found here: https://rstudio.github.io/leaflet/
 library(leaflet)
 
 # Reading shape files
@@ -36,7 +32,7 @@ hscp_lookup <- get_spd(col_select = c(datazone2011, hscp2019name)) |>
 # Map 1: Choose an HSCP and plot a map
 hscp <- "West Dunbartonshire"
 
-# selecting and rename columns of interest and bring to HSCP level
+# selecting and renaming columns of interest and filtering to a specific HSCP
 hscp_dz_shp <- datazone_shp |>
   select(
     datazone2011 = DataZone,
@@ -56,14 +52,14 @@ hscp_dz_shp |>
     color = "red",
     # Thickness of borders
     weight = 1,
-    # adds a popup when the polygon is clicked on
+    # adds a pop-up when the polygon is clicked on
     # using Datazone and Name columns
     popup = ~ glue("Datazone: {datazone2011name} ({datazone2011})"),
     # detail level of polygon (higher number = less accurate representation & better performance)
     smoothFactor = 1
   ) |>
   # Setting map provider for map background
-  # you can see the list by typing providers$ or visiting the following link
+  # You can see the list by typing providers$ or visiting the following link
   # # http://leaflet-extras.github.io/leaflet-providers/preview/index.html
   addProviderTiles(provider = providers[["OpenStreetMap"]])
 
@@ -82,7 +78,7 @@ simd_deciles_levels <- c("1 (Most Deprived)", 2:9, "10 (Least Deprived)")
 # join SIMD data for chosen HSCP to hscp_dz_shp
 hscp_dz_shp <- hscp_dz_shp |>
   left_join(simd, by = join_by(datazone2011)) |>
-  # SIMD deciles are numeric values but to add a bit more detail
+  # SIMD deciles are numeric values, but to add a bit more detail
   # change to a factor to indicate the most and least deprived deciles
   mutate(
     simd2020v2_sc_decile = case_match(
@@ -111,8 +107,8 @@ library(RColorBrewer)
 decile_colours <- brewer.pal(n = 10, name = "PuOr")
 
 # Maps colours defined in decile_colours to the simd_deciles ####
-# As we want our deciles be be in a certain order and they are not
-# numeric values, it is useful to make them a factor  which will
+# As we want our deciles to be in a certain order, and they are not
+# numeric values, it is useful to make them a factor,  which will
 # allow setting the order that the deciles will display
 pal_decile <- colorFactor(
   palette = decile_colours,
@@ -162,7 +158,7 @@ hscp_dz_shp |>
   addProviderTiles(provider = providers[["OpenStreetMap"]])
 
 
-# Map 3: Adding markers to map and setting groups ####
+# Map 3: Adding markers to the map and setting groups ####
 
 # Markers - https://rstudio.github.io/leaflet/markers.html
 # Groups - https://rstudio.github.io/leaflet/showhide.html
@@ -171,7 +167,7 @@ hscp_dz_shp |>
 # 75 postcodes in the HSCP. Longitude and latitude are needed
 # to do this
 # NOTE: If you are using the postcode directory to locate
-# buildings please be aware that if two or more are in the
+# buildings, please be aware that if two or more are in the
 # same postcode, the markers will overlap
 
 library(arrow)
@@ -279,11 +275,11 @@ hscp_dz_shp |>
   ## Add control for groups ####
   # Will add a set of controls in the top right of the map
   addLayersControl(
-    # Groups will show in order they are set here
+    # Groups will show in the order they are set here
     baseGroups = c("SIMD Fill", "No SIMD Fill"),
     overlayGroups = c("PC Sample 1", "PC Sample 2"),
     position = "topright",
-    # set collapsed = FALSE so that controls always displayed
+    # set collapsed = FALSE so that controls are always displayed
     options = layersControlOptions(collapsed = FALSE)
   ) |>
   # overlay groups will always start as ticked on the controls
