@@ -101,7 +101,7 @@ hscp_dz_shp <- hscp_dz_shp |>
 
 # Colour ranges for decile
 # Use RColorBrewer - Pick a palette here - https://colorbrewer2.org/
-# 'PuOr' is colour-blind safe and allows 10 colours.
+# 'PuOr' is colour-blind-safe and supports 10 colours.
 library(RColorBrewer)
 
 decile_colours <- brewer.pal(n = 10, name = "PuOr")
