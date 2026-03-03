@@ -183,12 +183,8 @@ pc_lookup <- get_spd(
 
 # shuffle postcodes and use the first 75
 # rerun this to get different postcodes
-sample_postcodes <- pc_lookup |>
-  slice_sample(n = 75)
-
-sample_postcodes2 <- pc_lookup |>
-  slice_sample(n = 75)
-
+sample_postcodes <- slice_sample(pc_lookup, n = 75)
+sample_postcodes2 <- slice_sample(pc_lookup, n = 75)
 
 ### Customising sample_postcodes2 icons ####
 sample_postcodes2_icon <- awesomeIcons(
@@ -263,8 +259,8 @@ hscp_dz_shp |>
     group = "PC Sample 1"
   ) |>
   addAwesomeMarkers(
-    data = sample_postcodes2,
-    icon = ~sample_postcodes2_icon,
+    data = ,
+    icon = ~_icon,
     popup = ~ glue(
       "Postcode: {postcode}<br>",
       "Latitude: {latitude}, Longitude: {longitude}"
