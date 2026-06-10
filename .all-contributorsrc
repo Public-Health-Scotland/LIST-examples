@@ -5,12 +5,13 @@
   "imageSize": 100,
   "commit": true,
   "commitType": "docs",
-  "commitConvention": "gitmoji",
+  "commitConvention": "angular",
+  "contributorsSortAlphabetically": "true",
   "contributors": [
     {
       "login": "Moohan",
       "name": "James Hayes",
-      "avatar_url": "https://avatars.githubusercontent.com/u/5982260?v=4",
+      "avatar_url": "https://avatars.githubusercontent.com/u/5982260",
       "profile": "https://publichealthscotland.scot/",
       "contributions": [
         "code",
