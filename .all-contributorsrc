@@ -29,6 +29,16 @@
         "code",
         "review"
       ]
+    },
+    {
+      "login": "CliveWG",
+      "name": "Clive Greatorex",
+      "avatar_url": "https://avatars.githubusercontent.com/u/109799428?v=4",
+      "profile": "https://github.com/CliveWG",
+      "contributions": [
+        "code",
+        "review"
+      ]
     }
   ],
   "contributorsPerLine": 7,
