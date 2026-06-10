@@ -29,6 +29,15 @@
         "code",
         "review"
       ]
+    },
+    {
+      "login": "jamesk-PHS",
+      "name": "James Kilgour",
+      "avatar_url": "https://avatars.githubusercontent.com/u/166704589?v=4",
+      "profile": "https://github.com/jamesk-PHS",
+      "contributions": [
+        "ideas"
+      ]
     }
   ],
   "contributorsPerLine": 7,
