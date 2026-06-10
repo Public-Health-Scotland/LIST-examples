@@ -6,6 +6,7 @@
   "commit": true,
   "commitType": "docs",
   "commitConvention": "angular",
+  "contributorsSortAlphabetically": "true",
   "contributors": [
     {
       "login": "Moohan",
