@@ -1,6 +1,6 @@
 # LIST-examples
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 A collection of best practice examples for use by LIST team members.
 
@@ -34,6 +34,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <table>
   <tbody>
     <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/CliveWG"><img src="https://avatars.githubusercontent.com/u/109799428?v=4?s=100" width="100px;" alt="Clive Greatorex"/><br /><sub><b>Clive Greatorex</b></sub></a><br /><a href="https://github.com/Public-Health-Scotland/LIST-examples/commits?author=CliveWG" title="Code">💻</a> <a href="https://github.com/Public-Health-Scotland/LIST-examples/pulls?q=is%3Apr+reviewed-by%3ACliveWG" title="Reviewed Pull Requests">👀</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://publichealthscotland.scot/"><img src="https://avatars.githubusercontent.com/u/5982260?s=100" width="100px;" alt="James Hayes"/><br /><sub><b>James Hayes</b></sub></a><br /><a href="https://github.com/Public-Health-Scotland/LIST-examples/commits?author=Moohan" title="Code">💻</a> <a href="https://github.com/Public-Health-Scotland/LIST-examples/pulls?q=is%3Apr+reviewed-by%3AMoohan" title="Reviewed Pull Requests">👀</a> <a href="#maintenance-Moohan" title="Maintenance">🚧</a> <a href="#projectManagement-Moohan" title="Project Management">📆</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/kate-pyper"><img src="https://avatars.githubusercontent.com/u/48451587?v=4?s=100" width="100px;" alt="kate-pyper"/><br /><sub><b>kate-pyper</b></sub></a><br /><a href="https://github.com/Public-Health-Scotland/LIST-examples/commits?author=kate-pyper" title="Code">💻</a> <a href="https://github.com/Public-Health-Scotland/LIST-examples/pulls?q=is%3Apr+reviewed-by%3Akate-pyper" title="Reviewed Pull Requests">👀</a></td>
     </tr>
