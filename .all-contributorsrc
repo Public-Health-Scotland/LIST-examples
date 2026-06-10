@@ -19,6 +19,16 @@
         "maintenance",
         "projectManagement"
       ]
+    },
+    {
+      "login": "kate-pyper",
+      "name": "kate-pyper",
+      "avatar_url": "https://avatars.githubusercontent.com/u/48451587?v=4",
+      "profile": "https://github.com/kate-pyper",
+      "contributions": [
+        "code",
+        "review"
+      ]
     }
   ],
   "contributorsPerLine": 7,
