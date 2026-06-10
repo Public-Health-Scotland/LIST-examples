@@ -22,12 +22,21 @@
     },
     {
       "login": "kate-pyper",
-      "name": "kate-pyper",
+      "name": "Kate Pyper",
       "avatar_url": "https://avatars.githubusercontent.com/u/48451587?v=4",
       "profile": "https://github.com/kate-pyper",
       "contributions": [
         "code",
         "review"
+      ]
+    },
+    {
+      "login": "jamesk-PHS",
+      "name": "James Kilgour",
+      "avatar_url": "https://avatars.githubusercontent.com/u/166704589?v=4",
+      "profile": "https://github.com/jamesk-PHS",
+      "contributions": [
+        "ideas"
       ]
     },
     {
@@ -52,7 +61,7 @@
     },
     {
       "login": "Andrew-Saul",
-      "name": "Andrew-Saul",
+      "name": "Andrew Saul",
       "avatar_url": "https://avatars.githubusercontent.com/u/94113765?v=4",
       "profile": "https://github.com/Andrew-Saul",
       "contributions": [
