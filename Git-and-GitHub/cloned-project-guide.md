@@ -58,7 +58,7 @@ Use `{fs}` to create your personal directory with permissions set for 'owner' on
 install.packages("fs")
 fs::dir_create("/conf/LIST_analytics/git_clones/alice1", mode = "u=rwx")
 ```
-- Replace `"alice"` with your username.
+- Replace `"alice1"` with your username.
 - The `mode = "u=rwx"` option ensures that only you (the owner) have permissions; no group or other access.
 
 - **Note** If you receive this error message "Error: [EACCES] Failed to make directory '/conf/LIST_analytics': permission denied", try running the above R code with no edits. If this works and the "alice1" folder appears, try re-running your edited code chunk. Please also delete the "alice1" folder. 
