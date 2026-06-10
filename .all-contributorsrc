@@ -5,7 +5,6 @@
   "imageSize": 100,
   "commit": true,
   "commitType": "docs",
-  "commitConvention": "gitmoji",
   "contributors": [
     {
       "login": "Moohan",
