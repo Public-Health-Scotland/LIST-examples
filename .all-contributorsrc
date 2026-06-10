@@ -38,6 +38,15 @@
       "contributions": [
         "code",
         "review"
+        ]
+    }.
+    {
+      "login": "Andrew-Saul",
+      "name": "Andrew-Saul",
+      "avatar_url": "https://avatars.githubusercontent.com/u/94113765?v=4",
+      "profile": "https://github.com/Andrew-Saul",
+      "contributions": [
+        "ideas"
       ]
     }
   ],
