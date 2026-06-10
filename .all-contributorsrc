@@ -47,7 +47,7 @@
       "contributions": [
         "code",
         "review"
-        ]
+      ]
     },
     {
       "login": "CliveWG",
@@ -57,7 +57,7 @@
       "contributions": [
         "code",
         "review"
-        ]
+      ]
     },
     {
       "login": "Andrew-Saul",
@@ -66,6 +66,15 @@
       "profile": "https://github.com/Andrew-Saul",
       "contributions": [
         "ideas"
+      ]
+    },
+    {
+      "login": "csillasch",
+      "name": "Csilla Scharle",
+      "avatar_url": "https://avatars.githubusercontent.com/u/59616009?v=4",
+      "profile": "https://github.com/csillasch",
+      "contributions": [
+        "review"
       ]
     }
   ],
