@@ -1,23 +1,24 @@
 # Load libraries ####
-# if any package not installed use install.packages("package")
+# if any package is not installed, use install.packages("package")
 library(dplyr)
 library(glue)
+library(phslookups)
+library(phsopendata)
+library(phsstyles)
 
 # Mapping Packages
-# For installation instructions see the following link
-# (shift + left click to open)
-# https://public-health-scotland.github.io/knowledge-base/docs/Posit%20Infrastructure?doc=How%20to%20Install%20and%20Use%20Geospatial%20R%20Packages.md
-# leaflet documentation can be found here: https://rstudio.github.io/leaflet/
 library(leaflet)
 
 # Reading shape files
 library(sf)
 
 # List different shapefiles in the shapefile folder
-shapefiles_folder <- "/conf/linkage/output/lookups/Unicode/Geography/Shapefiles"
+shapefiles_folder <- file.path(
+  "/conf/linkage/output/lookups/Unicode/Geography/Shapefiles"
+)
 list.files(shapefiles_folder)
 
-# Datazone shapefile from Shapefiles/Data Zone 2011/ folder
+# Datazone shapefile from Shapefiles/Data Zone 2011 folder
 # .shp files are read in
 datazone_shp <- read_sf(file.path(
   shapefiles_folder,
@@ -27,17 +28,24 @@ datazone_shp <- read_sf(file.path(
   # converts the shapefile to use latitude and longitude
   st_transform(4326) # EPSG4326
 
-# Map 1: Choose an HSCP and plot a map ####
+hscp_lookup <- get_resource(
+  "395476ab-0720-4740-be07-ff4467141352",
+  col_select = c("DataZone", "HSCPName")
+) |>
+  # Rename columns to the standard names used throughout this example
+  distinct(datazone2011 = DataZone, hscp2019name = HSCPName)
+
+# Map 1: Choose an HSCP and plot a map
 hscp <- "West Dunbartonshire"
 
-# selecting and rename columns of interest and bring to hscp level
+# selecting and renaming columns of interest and filtering to a specific HSCP
 hscp_dz_shp <- datazone_shp |>
   select(
     datazone2011 = DataZone,
     datazone2011name = Name,
-    hscp2019name = hscp2019na,
     geometry
   ) |>
+  left_join(hscp_lookup, by = join_by(datazone2011)) |>
   filter(hscp2019name == hscp)
 
 # plot map
@@ -50,14 +58,14 @@ hscp_dz_shp |>
     color = "red",
     # Thickness of borders
     weight = 1,
-    # adds a popup when the polygon is clicked on
+    # adds a pop-up when the polygon is clicked on
     # using Datazone and Name columns
     popup = ~ glue("Datazone: {datazone2011name} ({datazone2011})"),
     # detail level of polygon (higher number = less accurate representation & better performance)
     smoothFactor = 1
   ) |>
-  # Setting map prvider for map background
-  # you can see the list by typing providers$ or visiting the following link
+  # Setting map provider for map background
+  # You can see the list by typing providers$ or visiting the following link
   # # http://leaflet-extras.github.io/leaflet-providers/preview/index.html
   addProviderTiles(provider = providers[["OpenStreetMap"]])
 
@@ -65,49 +73,45 @@ hscp_dz_shp |>
 # Joining data onto shapefile ####
 # SIMD file
 # SIMD2020v2
-simd <- readRDS(
-  "/conf/linkage/output/lookups/Unicode/Deprivation/DataZone2011_simd2020v2.rds"
-) |>
-  # Choose the required columns
-  select(datazone2011, simd2020v2_sc_decile, simd2020v2_sc_quintile)
+simd <- get_simd_datazone(
+  simd_version = "2020v2",
+  col_select = c(datazone2011, simd2020v2_sc_decile, simd2020v2_sc_quintile)
+)
 
 # SIMD deciles
 simd_deciles_levels <- c("1 (Most Deprived)", 2:9, "10 (Least Deprived)")
 
-# join simd data for chosen hscp to hscp_dz_shp
-hscp_dz_shp <- hscp_dz_shp |>
+# join SIMD data for chosen HSCP to hscp_dz_shp
+hscp_dz_simd_shp <- hscp_dz_shp |>
   left_join(simd, by = join_by(datazone2011)) |>
-  # simd deciles are numeric values but to add a bit more detail
+  # SIMD deciles are numeric values, but to add a bit more detail
   # change to a factor to indicate the most and least deprived deciles
   mutate(
-    simd2020v2_sc_decile = case_match(
-      simd2020v2_sc_decile,
-      1 ~ "1 (Most Deprived)",
-      10 ~ "10 (Least Deprived)",
-      .default = as.character(simd2020v2_sc_decile)
+    simd2020v2_sc_decile = replace_values(
+      as.character(simd2020v2_sc_decile),
+      "1" ~ "1 (Most Deprived)",
+      "10" ~ "10 (Least Deprived)"
     ),
-    simd2020v2_sc_decile = ordered(
-      x = simd2020v2_sc_decile,
-      levels = simd_deciles_levels
+    # Explicitly set levels for the factor
+    simd2020v2_sc_decile = factor(
+      simd2020v2_sc_decile,
+      levels = simd_deciles_levels,
+      ordered = TRUE
     )
   )
 
-# Add colours representing simd deciles ####
+# Add colours representing SIMD deciles ####
 
 # More examples can be found here:
 # https://rstudio.github.io/leaflet/colors.html
 # Define colours for each decile by creating a palette
 
-# Colour ranges for decile
-# Use RColorBrewer - Pick a palette here - https://colorbrewer2.org/
-# 'PuOr' is colour-blind safe and allows 10 colours.
-library(RColorBrewer)
-
-decile_colours <- brewer.pal(n = 10, name = "PuOr")
+# Using the PHS palette 'Categories Large' as this supports at least 10
+decile_colours <- phs_palettes[["categories-large"]]
 
 # Maps colours defined in decile_colours to the simd_deciles ####
-# As we want our deciles be be in a certain order and they are not
-# numeric values, it is useful to make them a factor  which will
+# As we want our deciles to be in a certain order, and they are not
+# numeric values, it is useful to make them a factor,  which will
 # allow setting the order that the deciles will display
 pal_decile <- colorFactor(
   palette = decile_colours,
@@ -116,8 +120,8 @@ pal_decile <- colorFactor(
 )
 
 
-# Map 2: Plot map with simd ####
-hscp_dz_shp |>
+# Map 2: Plot map with SIMD ####
+hscp_dz_simd_shp |>
   leaflet() |>
   addPolygons(
     color = "grey",
@@ -157,7 +161,7 @@ hscp_dz_shp |>
   addProviderTiles(provider = providers[["OpenStreetMap"]])
 
 
-# Map 3: Adding markers to map and setting groups ####
+# Map 3: Adding markers to the map and setting groups ####
 
 # Markers - https://rstudio.github.io/leaflet/markers.html
 # Groups - https://rstudio.github.io/leaflet/showhide.html
@@ -166,18 +170,12 @@ hscp_dz_shp |>
 # 75 postcodes in the HSCP. Longitude and latitude are needed
 # to do this
 # NOTE: If you are using the postcode directory to locate
-# buildings please be aware that if two or more are in the
+# buildings, please be aware that if two or more are in the
 # same postcode, the markers will overlap
 
-library(arrow)
-
 ## Postcode lookup for markers ####
-pc_lookup <- read_parquet(
-  file.path(
-    "/conf/linkage/output/lookups/Unicode/Geography",
-    "Scottish Postcode Directory",
-    "Scottish_Postcode_Directory_2023_2.parquet"
-  ),
+pc_lookup <- get_spd(
+  version = "2023_2",
   col_select = c(pc7, latitude, longitude, hscp2019name)
 ) |>
   filter(hscp2019name == hscp) |>
@@ -186,12 +184,8 @@ pc_lookup <- read_parquet(
 
 # shuffle postcodes and use the first 75
 # rerun this to get different postcodes
-sample_postcodes <- pc_lookup |>
-  slice_sample(n = 75)
-
-sample_postcodes2 <- pc_lookup |>
-  slice_sample(n = 75)
-
+sample_postcodes <- slice_sample(pc_lookup, n = 75)
+sample_postcodes2 <- slice_sample(pc_lookup, n = 75)
 
 ### Customising sample_postcodes2 icons ####
 sample_postcodes2_icon <- awesomeIcons(
@@ -201,7 +195,7 @@ sample_postcodes2_icon <- awesomeIcons(
 )
 
 ## Plot map ####
-hscp_dz_shp |>
+hscp_dz_simd_shp |>
   leaflet() |>
   addPolygons(
     color = "grey",
@@ -256,8 +250,12 @@ hscp_dz_shp |>
     group = "SIMD Fill"
   ) |>
   ## Add markers ####
+  # For larger numbers of points, consider addCircleMarkers(), marker clustering,
+  # or aggregation to avoid slow maps and overplotting.
   addAwesomeMarkers(
     data = sample_postcodes,
+    lng = ~longitude,
+    lat = ~latitude,
     popup = ~ glue(
       "Postcode: {postcode}<br>",
       "Latitude: {latitude}, Longitude: {longitude}"
@@ -267,7 +265,9 @@ hscp_dz_shp |>
   ) |>
   addAwesomeMarkers(
     data = sample_postcodes2,
-    icon = ~sample_postcodes2_icon,
+    icon = sample_postcodes2_icon,
+    lng = ~longitude,
+    lat = ~latitude,
     popup = ~ glue(
       "Postcode: {postcode}<br>",
       "Latitude: {latitude}, Longitude: {longitude}"
@@ -278,11 +278,15 @@ hscp_dz_shp |>
   ## Add control for groups ####
   # Will add a set of controls in the top right of the map
   addLayersControl(
-    # Groups will show in order they are set here
+    # Groups will show in the order they are set here
+    # baseGroups behave like radio buttons: only one can be shown at a time.
+    # WARNING: for a static HTML (non-Shiny) the fill/no-fill option will double
+    # the file size as both 'layers' will be embedded.
     baseGroups = c("SIMD Fill", "No SIMD Fill"),
+    # overlayGroups behave like checkboxes: multiple layers can be shown together.
     overlayGroups = c("PC Sample 1", "PC Sample 2"),
     position = "topright",
-    # set collapsed = FALSE so that controls always displayed
+    # set collapsed = FALSE so that controls are always displayed
     options = layersControlOptions(collapsed = FALSE)
   ) |>
   # overlay groups will always start as ticked on the controls
