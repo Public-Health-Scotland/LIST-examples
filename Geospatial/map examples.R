@@ -81,7 +81,7 @@ simd <- get_simd_datazone(
 simd_deciles_levels <- c("1 (Most Deprived)", 2:9, "10 (Least Deprived)")
 
 # join SIMD data for chosen HSCP to hscp_dz_shp
-hscp_dz_shp <- hscp_dz_shp |>
+hscp_dz_simd_shp <- hscp_dz_shp |>
   left_join(simd, by = join_by(datazone2011)) |>
   # SIMD deciles are numeric values, but to add a bit more detail
   # change to a factor to indicate the most and least deprived deciles
@@ -119,7 +119,7 @@ pal_decile <- colorFactor(
 
 
 # Map 2: Plot map with SIMD ####
-hscp_dz_shp |>
+hscp_dz_simd_shp |>
   leaflet() |>
   addPolygons(
     color = "grey",
@@ -193,7 +193,7 @@ sample_postcodes2_icon <- awesomeIcons(
 )
 
 ## Plot map ####
-hscp_dz_shp |>
+hscp_dz_simd_shp |>
   leaflet() |>
   addPolygons(
     color = "grey",
