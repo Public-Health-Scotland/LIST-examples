@@ -27,9 +27,11 @@ datazone_shp <- read_sf(file.path(
   # converts the shapefile to use latitude and longitude
   st_transform(4326) # EPSG4326
 
-hscp_lookup <- get_resource("395476ab-0720-4740-be07-ff4467141352", col_select = c("DataZone", "HSCPName")) |>
-  distinct(datazone2011 = DataZone, 
-           hscp2019name = HSCPName)
+hscp_lookup <- get_resource(
+  "395476ab-0720-4740-be07-ff4467141352",
+  col_select = c("DataZone", "HSCPName")
+) |>
+  distinct(datazone2011 = DataZone, hscp2019name = HSCPName)
 
 # Map 1: Choose an HSCP and plot a map
 hscp <- "West Dunbartonshire"
