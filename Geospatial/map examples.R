@@ -32,6 +32,7 @@ hscp_lookup <- get_resource(
   "395476ab-0720-4740-be07-ff4467141352",
   col_select = c("DataZone", "HSCPName")
 ) |>
+  # Rename columns to the standard names used throughout this example
   distinct(datazone2011 = DataZone, hscp2019name = HSCPName)
 
 # Map 1: Choose an HSCP and plot a map
@@ -249,6 +250,8 @@ hscp_dz_simd_shp |>
     group = "SIMD Fill"
   ) |>
   ## Add markers ####
+  # For larger numbers of points, consider addCircleMarkers(), marker clustering,
+  # or aggregation to avoid slow maps and overplotting.
   addAwesomeMarkers(
     data = sample_postcodes,
     lng = ~longitude,
@@ -276,7 +279,11 @@ hscp_dz_simd_shp |>
   # Will add a set of controls in the top right of the map
   addLayersControl(
     # Groups will show in the order they are set here
+    # baseGroups behave like radio buttons: only one can be shown at a time.
+    # WARNING: for a static HTML (non-Shiny) the fill/no-fill option will double
+    # the file size as both 'layers' will be embedded.
     baseGroups = c("SIMD Fill", "No SIMD Fill"),
+    # overlayGroups behave like checkboxes: multiple layers can be shown together.
     overlayGroups = c("PC Sample 1", "PC Sample 2"),
     position = "topright",
     # set collapsed = FALSE so that controls are always displayed
