@@ -3,6 +3,7 @@
 library(dplyr)
 library(glue)
 library(phslookups)
+library(phsopendata)
 
 # Mapping Packages
 library(leaflet)
@@ -26,8 +27,9 @@ datazone_shp <- read_sf(file.path(
   # converts the shapefile to use latitude and longitude
   st_transform(4326) # EPSG4326
 
-hscp_lookup <- get_spd(col_select = c(datazone2011, hscp2019name)) |>
-  distinct(datazone2011, hscp2019name)
+hscp_lookup <- get_resource("395476ab-0720-4740-be07-ff4467141352", col_select = c("DataZone", "HSCPName")) |>
+  distinct(datazone2011 = DataZone, 
+           hscp2019name = HSCPName)
 
 # Map 1: Choose an HSCP and plot a map
 hscp <- "West Dunbartonshire"
@@ -170,8 +172,6 @@ hscp_dz_shp |>
 # buildings, please be aware that if two or more are in the
 # same postcode, the markers will overlap
 
-library(arrow)
-
 ## Postcode lookup for markers ####
 pc_lookup <- get_spd(
   version = "2023_2",
@@ -259,8 +259,8 @@ hscp_dz_shp |>
     group = "PC Sample 1"
   ) |>
   addAwesomeMarkers(
-    data = ,
-    icon = ~_icon,
+    data = sample_postcodes2,
+    icon = ~sample_postcodes2_icon,
     popup = ~ glue(
       "Postcode: {postcode}<br>",
       "Latitude: {latitude}, Longitude: {longitude}"
