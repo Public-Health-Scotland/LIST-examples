@@ -4,6 +4,7 @@ library(dplyr)
 library(glue)
 library(phslookups)
 library(phsopendata)
+library(phsstyles)
 
 # Mapping Packages
 library(leaflet)
@@ -103,12 +104,8 @@ hscp_dz_shp <- hscp_dz_shp |>
 # https://rstudio.github.io/leaflet/colors.html
 # Define colours for each decile by creating a palette
 
-# Colour ranges for decile
-# Use RColorBrewer - Pick a palette here - https://colorbrewer2.org/
-# 'PuOr' is colour-blind-safe and supports 10 colours.
-library(RColorBrewer)
-
-decile_colours <- brewer.pal(n = 10, name = "PuOr")
+# Using the PHS palette 'Categories Large' as this supports at least 10
+decile_colours <- phs_palettes[["categories-large"]]
 
 # Maps colours defined in decile_colours to the simd_deciles ####
 # As we want our deciles to be in a certain order, and they are not
