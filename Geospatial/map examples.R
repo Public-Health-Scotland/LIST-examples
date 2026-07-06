@@ -250,6 +250,8 @@ hscp_dz_simd_shp |>
   ## Add markers ####
   addAwesomeMarkers(
     data = sample_postcodes,
+    lng = ~longitude,
+    lat = ~latitude,
     popup = ~ glue(
       "Postcode: {postcode}<br>",
       "Latitude: {latitude}, Longitude: {longitude}"
@@ -259,7 +261,9 @@ hscp_dz_simd_shp |>
   ) |>
   addAwesomeMarkers(
     data = sample_postcodes2,
-    icon = ~sample_postcodes2_icon,
+    icon = sample_postcodes2_icon,
+    lng = ~longitude,
+    lat = ~latitude,
     popup = ~ glue(
       "Postcode: {postcode}<br>",
       "Latitude: {latitude}, Longitude: {longitude}"
