@@ -86,15 +86,16 @@ hscp_dz_simd_shp <- hscp_dz_shp |>
   # SIMD deciles are numeric values, but to add a bit more detail
   # change to a factor to indicate the most and least deprived deciles
   mutate(
-    simd2020v2_sc_decile = case_match(
-      simd2020v2_sc_decile,
-      1 ~ "1 (Most Deprived)",
-      10 ~ "10 (Least Deprived)",
-      .default = as.character(simd2020v2_sc_decile)
+    simd2020v2_sc_decile = replace_values(
+      as.character(simd2020v2_sc_decile),
+      "1" ~ "1 (Most Deprived)",
+      "10" ~ "10 (Least Deprived)"
     ),
-    simd2020v2_sc_decile = ordered(
-      x = simd2020v2_sc_decile,
-      levels = simd_deciles_levels
+    # Explicitly set levels for the factor
+    simd2020v2_sc_decile = factor(
+      simd2020v2_sc_decile,
+      levels = simd_deciles_levels,
+      ordered = TRUE
     )
   )
 
