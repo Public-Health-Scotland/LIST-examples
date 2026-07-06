@@ -60,6 +60,15 @@ You can safely type `yes` and click `OK`.
 
 This message is asking you to confirm that you trust GitHub and wish to connect and authenticate. You should only see this message once, as it will store GitHub's fingerprint for future connection verification.
 
+#### Troubleshooting
+For some reason, the above pop-up has not been appearing, and connections then fail with an error:
+
+<img width="711" height="306" alt="image" src="https://github.com/user-attachments/assets/3016612a-91c8-4a77-8114-8970e1be5dac" />
+
+The workaround is to open a terminal and run `ssh git@github.com`, which will give you a prompt, where you can type yes. This will add GitHub.com to the 'known hosts' list, and future connections should work without issue. The prompt is in the top half of the screenshot below. If you only see the second half, then you have a different issue!
+
+<img width="837" height="201" alt="image" src="https://github.com/user-attachments/assets/0805f689-4f75-49c7-aff6-f7d047ce84bc" />
+
 ## References
  [^1] [PHS git guide](https://public-health-scotland.github.io/git-guide/)
  [^2] [R for Health Data Science](https://argoshare.is.ed.ac.uk/healthyr_book/create-an-ssh-rsa-key-and-add-to-your-github-account.html)
