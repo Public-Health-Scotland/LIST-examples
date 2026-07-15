@@ -8,7 +8,7 @@ output:
 
 ```{r setup, include=FALSE}
 
-# This document will serve as a guide on how to create charts that are changed by two crosstalk filter simultaneously. It will also serve as a guide on how to use crosstalk with flexdashboard
+# This document will serve as a guide on how to create charts that are changed by two crosstalk filters simultaneously. It will also serve as a guide on how to use crosstalk with flexdashboard
 
 
 # This Section Sets Defaults For Rmarkdown Document
@@ -31,9 +31,10 @@ library(DT)
 
 // When document loads
 $(document).ready(function() {
-  // Called when flexdashboard content has been created. Won't work properly otherwise
+  // This part is saying to only apply changes after the flexdashboard is done loading
   $('#dashboard-container').on('flexdashboard:layoutcomplete', function() {
-    $('#person .selectized')[0].selectize.on('change', function() { // Assign onChange function to filter_select
+    // Assign onChange function to filter_select
+    $('#person .selectized')[0].selectize.on('change', function() { 
       var selected_value = $('#person .selectized')[0].selectize.getValue().sort(); // Get current value
       document.getElementById("bp_title").innerHTML = selected_value; // Update titles with new value
       document.getElementById("characteristics_title").innerHTML = selected_value;
@@ -47,7 +48,7 @@ $(document).ready(function() {
 ```{r example data 1, include = FALSE}
 
 # Create fake blood pressure readings for 5 patients: A, B, C, D, E
-# These patients have been treated using 2 different medications: treatment1 and treatment 2
+# These patients have been treated using 2 different medications: treatment 1 and treatment 2
 # Their blood pressure has been recorded at 5 time points with time 0 being when they took the medication
 
 # The readings for the patients when they have taken treatment 1
@@ -60,7 +61,7 @@ BP_Readings_treatment_1 <- data.frame(
 )  %>%
   mutate(Treatment="Heart Medication 1")
 
-# The readings for the patients when they have taken treatment 1
+# The readings for the patients when they have taken treatment 2
 
 BP_Readings_treatment_2 <- data.frame(
   
@@ -113,14 +114,14 @@ Person_Characteristics <- data.frame(
 # e.g. we want our chart of characteristics about each person to be unaffected by our treatment filter
 
 # Therefore, we must make sure that no matter what treatment is chosen the right person information shows up 
-# However, the crosstalk filter will be filtering our datasets for unique identifiers that look something like thos for the BP readings
+# However, the crosstalk filter will be filtering our datasets for unique identifiers that look something like those for the BP readings
 # for example Patient A_Heart Medication 1
 
 # To do this we use the crossing function
 # The crossing function will take a dataframe and a vector
-# Then vector represents all the unique values that a new column could take 
+# The vector represents all the unique values that a new column could take 
 # the crossing function will then extend the existing dataframe to have every 
-# combination of the columns that the dataframe already have with each of the new entries of the column created using the vector
+# combination of the columns that the dataframe already has with each of the new entries of the column created using the vector
 
 # This function is easier to understand in practice so here is a very simple example
 
@@ -150,7 +151,7 @@ Person_Characteristics <- Person_Characteristics %>%
   mutate(Identifier_Column=paste0(Person,"_",Treatment))
   
 
-# Now out data looks something like
+# Now our data looks like
 
 Person_Characteristics %>%
   DT::datatable()
@@ -316,13 +317,13 @@ Person_Characteristics_Shared %>%
   // When document is ready
   $(document).ready(function() {
   
-    // Called when flexdashboard content has been created. Won't work properly otherwise
+    // This part is saying to only apply changes after the flexdashboard is done loading
     $('#dashboard-container').on('flexdashboard:layoutcomplete', function() {
     
-      // Select nhs board filter and remove (all) option
+      // Select Person filter and remove (all) option
       $('#person .selectized')[0].selectize.removeOption("");
 
-      // Select nhs board filter and set it's default value to calculated R variable
+      // Select Person filter and set it's default value on load to Person A
       $('#person .selectized')[0].selectize.setValue("A", false);
 
     });
@@ -330,10 +331,10 @@ Person_Characteristics_Shared %>%
     // Called when flexdashboard content has been created. Won't work properly otherwise
     $('#dashboard-container').on('flexdashboard:layoutcomplete', function() {
     
-      // Select nhs board filter and remove (all) option
+      // Select Treatment filter and remove (all) option
       $('#treatment .selectized')[0].selectize.removeOption("");
 
-      // Select nhs board filter and set it's default value to calculated R variable
+      // Select Treatment filter and set it's default value on load to Heart Medication 1
       $('#treatment .selectized')[0].selectize.setValue("Heart Medication 1", false);
 
     });
