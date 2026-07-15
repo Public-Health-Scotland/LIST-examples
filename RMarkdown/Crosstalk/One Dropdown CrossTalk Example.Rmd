@@ -27,9 +27,10 @@ library(plotly)
 
 // When document loads
 $(document).ready(function() {
-  // Called when flexdashboard content has been created. Won't work properly otherwise
+  // This part is saying to only apply changes after the flexdashboard is done loading
   $('#dashboard-container').on('flexdashboard:layoutcomplete', function() {
-    $('#person .selectized')[0].selectize.on('change', function() { // Assign onChange function to filter_select
+    // Assign onChange function to filter_select
+    $('#person .selectized')[0].selectize.on('change', function() { 
       var selected_value = $('#person .selectized')[0].selectize.getValue().sort(); // Get current value
       document.getElementById("bp_title").innerHTML = selected_value; // Update titles with new value
       document.getElementById("characteristics_title").innerHTML = selected_value;
@@ -186,10 +187,10 @@ Person_Characteristics_Shared %>%
     // Called when flexdashboard content has been created. Won't work properly otherwise
     $('#dashboard-container').on('flexdashboard:layoutcomplete', function() {
     
-      // Select nhs board filter and remove (all) option
+      // Select Person filter and remove (all) option
       $('#person .selectized')[0].selectize.removeOption("");
 
-      // Select nhs board filter and set it's default value to calculated R variable
+      // Select Person filter and set it's default value on load to Person A 
       $('#person .selectized')[0].selectize.setValue("A", false);
 
     });
