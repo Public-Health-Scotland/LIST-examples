@@ -3,19 +3,15 @@ title: "Urgent Care"
 output: 
   flexdashboard::flex_dashboard:
     vertical_layout: scroll
-
 ---
 
 ```{r setup, include=FALSE}
 # This document will serve as a guide on how to create charts that are changed by two crosstalk filters simultaneously. It will also serve as a guide on how to use crosstalk with flexdashboard
 
-
 # This Section Sets Defaults For Rmarkdown Document
-
 knitr::opts_chunk$set(echo = FALSE)
 
 # This Section Loads The Necessary Packages
-
 library(flexdashboard)
 library(DT)
 library(bsplus)
@@ -26,7 +22,6 @@ library(DT)
 ```
 
 ```{js}
-
 // When document loads
 $(document).ready(function() {
   // This part is saying to only apply changes after the flexdashboard is done loading
@@ -39,17 +34,15 @@ $(document).ready(function() {
     });  
   });
 });
-
 ```
 
 
 ```{r example data 1, include = FALSE}
 # Create fake blood pressure readings for 5 patients: A, B, C, D, E
 # These patients have been treated using 2 different medications: treatment 1 and treatment 2
-# Their blood pressure has been recorded at 5 time points with time 0 being when they took the medication
+# Their blood pressure has been recorded at 5 time points, with time 0 being when they took the medication
 
 # The readings for the patients when they have taken treatment 1
-
 BP_Readings_treatment_1 <- data.frame(
   Time = rep(seq(0, 5), 5),
   Person = rep(c("A", "B", "C", "D", "E"), each = 6),
@@ -58,7 +51,6 @@ BP_Readings_treatment_1 <- data.frame(
   mutate(Treatment = "Heart Medication 1")
 
 # The readings for the patients when they have taken treatment 2
-
 BP_Readings_treatment_2 <- data.frame(
   Time = rep(seq(0, 5), 5),
   Person = rep(c("A", "B", "C", "D", "E"), each = 6),
@@ -67,23 +59,20 @@ BP_Readings_treatment_2 <- data.frame(
   mutate(Treatment = "Heart Medication 2")
 
 # Combining together to get list of all patients blood pressure readings over time for each treatment
-
 All_BP_readings <- BP_Readings_treatment_1 %>%
   rbind(BP_Readings_treatment_2)
 
 
-# We are going to be filtering our charts and table by Person and By Treatment
+# We are going to be filtering our charts and table by Person and by Treatment
 
-# Crosstalk will only take one column which acts as a unique identifier of what information to filter for
+# Crosstalk will only take one column, which acts as a unique identifier of what information to filter for
 # Since we have two different columns which uniquely identify the information we wish to keep in our charts: Person & Treatment
 # we must combine the info in these two columns into one column in some way
 # Most common way is shown below
-
 All_BP_readings <- All_BP_readings %>%
   mutate(Identifier_Column = paste0(Person, "_", Treatment))
 
 # Now our data looks like this
-
 All_BP_readings %>%
   mutate(BP = round(BP)) %>%
   DT::datatable()
@@ -101,18 +90,17 @@ Person_Characteristics <- data.frame(
 # We want these characteristics about each person to show up no matter what treatment is selected by our crosstalk filter
 # e.g. we want our chart of characteristics about each person to be unaffected by our treatment filter
 
-# Therefore, we must make sure that no matter what treatment is chosen the right person information shows up
+# Therefore, we must make sure that no matter what treatment is chosen, the right person information shows up
 # However, the crosstalk filter will be filtering our datasets for unique identifiers that look something like those for the BP readings
 # for example Patient A_Heart Medication 1
 
-# To do this we use the crossing function
+# To do this, we use the crossing function
 # The crossing function will take a dataframe and a vector
 # The vector represents all the unique values that a new column could take
-# the crossing function will then extend the existing dataframe to have every
+# The crossing function will then extend the existing dataframe to have every
 # combination of the columns that the dataframe already has with each of the new entries of the column created using the vector
 
-# This function is easier to understand in practice so here is a very simple example
-
+# This function is easier to understand in practice, so here is a very simple example
 example_data <- data.frame(
   Names = c("Ryan", "Eilidh", "Shahnoor"),
   Ages = c(18, 19, 20)
@@ -135,7 +123,6 @@ Person_Characteristics <- Person_Characteristics %>%
 
 
 # Now our data looks like
-
 Person_Characteristics %>%
   DT::datatable()
 
@@ -148,10 +135,10 @@ Person_Characteristics %>%
 # We must also include our unique identifier column in this lookup as that is what
 # the crosstalk filters will be searching for in the data we are filtering
 
-# To do this we will use the distinct function
+# To do this, we will use the distinct function
 # this function returns all combinations of the columns provided within a dataframe
-# in this instance it is finding all unique combinations of treatments and people
-# (as well as the unique identifier column which combines the two) that are present within the data
+# in this instance, it is finding all unique combinations of treatments and people
+# (as well as the unique identifier column, which combines the two) that are present within the data
 
 Person_And_Treatment_Lookup <- All_BP_readings %>%
   distinct(Person, Treatment, Identifier_Column)
@@ -164,17 +151,17 @@ Person_And_Treatment_Lookup %>%
 
 ```{r, include = FALSE}
 # We now create our SharedData objects
-# These are the same as our created dataframes however they are now dynamic and
+# These are the same as our created dataframes however, they are now dynamic and
 # can be affected by our crosstalk filters
 
 # Within the creation of these SharedData objects
 # We must identify the key for our data
-# this is a column which uniquely identifies each entry based on out filters
-# in our example this column represents what person the data refers to and what treatment they have taken
+# this is a column which uniquely identifies each entry based on our filters
+# in our example, this column represents what person the data refers to and what treatment they have taken
 
 # We must also specify a group for each data set. This refers to what filters should affect what datasets
 # You would have multiple groups in the case where you have one set of filters which affect one set of charts and another set which affect another distinct set of charts
-# for our example, we want our filters to affect all of our charts and tables so we will only have one group
+# for our example, we want our filters to affect all of our charts and tables, so we will only have one group
 
 
 Person_And_Treatment_Lookup_Shared <- SharedData$new(Person_And_Treatment_Lookup, key = ~Identifier_Column, group = "BP_Group")
@@ -190,16 +177,12 @@ Row {.sidebar}
 
 ```{r filter buttons}
 # We now create our filters
-# They take their options from the their respective columns in the lookup of all options (Person_And_Treatment_Lookup)
+# They take their options from their respective columns in the lookup of all options (Person_And_Treatment_Lookup)
 
 filter_select("person", "Select Some People", Person_And_Treatment_Lookup_Shared, ~Person, multiple = TRUE)
 
 filter_select("treatment", "Select Treatment", Person_And_Treatment_Lookup_Shared, ~Treatment, multiple = TRUE)
 ```
-
-
-
-
 
 
 Row
@@ -211,7 +194,6 @@ Row
 
 ```{r BP graph}
 # Our Unique Identifier Column (Thing We Wish To Choose From) is the Identifier_Column Column
-
 All_BP_readings_Shared %>%
   plot_ly(
     x = ~Time,
@@ -287,11 +269,7 @@ Person_Characteristics_Shared %>%
   )
 ```
 
-
-
-
 ``` {js specialty filter code}
-
 //JavaScript code using the jQuery library
   // When document is ready
   $(document).ready(function() {
@@ -302,9 +280,8 @@ Person_Characteristics_Shared %>%
       // Select Person filter and remove (all) option
       $('#person .selectized')[0].selectize.removeOption("");
 
-      // Select Person filter and set it's default value on load to Person A
+      // Select Person filter and set its default value on load to Person A
       $('#person .selectized')[0].selectize.setValue("A", false);
-
     });
     
     // Called when flexdashboard content has been created. Won't work properly otherwise
@@ -313,17 +290,8 @@ Person_Characteristics_Shared %>%
       // Select Treatment filter and remove (all) option
       $('#treatment .selectized')[0].selectize.removeOption("");
 
-      // Select Treatment filter and set it's default value on load to Heart Medication 1
+      // Select Treatment filter and set its default value on load to Heart Medication 1
       $('#treatment .selectized')[0].selectize.setValue("Heart Medication 1", false);
-
     });
-    
   });
-
 ```
-
-
-
-
-
-
