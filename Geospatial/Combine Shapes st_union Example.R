@@ -10,11 +10,13 @@ library(janitor)
 library(leaflet)
 library(stringr)
 library(sf)
+library(phsmethods)
+library(phslookups)
 
 # 1. Load Scottish Postcode Directory ----
 # This gets all postcodes in Scotland + associated HB, HSCP + postcodes centroid (midpoint)
 
-spd_lookup <- phslookups::get_spd(
+spd_lookup <- get_spd(
   col_select = c(
     hb2019,
     hb2019name,
@@ -26,7 +28,7 @@ spd_lookup <- phslookups::get_spd(
   )
 ) %>%
   distinct() %>%
-  mutate(pc8 = gsub(" ", "", pc8)) # need to remove spaces so all data and lookups match in format
+  mutate(pc8 = format_postcode(pc8, format = "pc8"))
 
 # 2. Load Scottish Postcode Shapefiles ----
 
@@ -46,9 +48,7 @@ postcode_sf <- list.files(
   mutate(date = as.numeric(date)) %>%
   filter(date == max(date)) %>%
   pull(filename) %>%
-
   read_sf() %>%
-
   clean_names()
 
 # In these "postcode" shapefiles some postcodes have actually been split into parts
@@ -56,7 +56,6 @@ postcode_sf <- list.files(
 # + to be able to attach on the SPD
 
 postcode_sf <- postcode_sf %>%
-
   mutate(
     true_postcode = mapply(
       FUN = function(a, b) {
@@ -74,9 +73,7 @@ postcode_sf <- postcode_sf %>%
   )
 
 split_postcodes_sf <- postcode_sf %>%
-
   filter(postcode != true_postcode) %>%
-
   summarise(
     # This function takes the Postcodes and combines them all together by HSCP
     geometry = st_union(geometry),
@@ -92,15 +89,12 @@ non_split_postcodes_sf <- postcode_sf %>%
 
 postcode_sf <- non_split_postcodes_sf %>%
   bind_rows(split_postcodes_sf) %>%
-
-  mutate(postcode = gsub(" ", "", postcode)) %>%
-
-  full_join(
-    spd_lookup,
-    by = c("postcode" = "pc8"),
-    relationship = "one-to-one"
-  ) %>%
-
+  mutate(postcode = format_postcode(postcode, format = "pc8"))
+full_join(
+  spd_lookup,
+  by = c("postcode" = "pc8"),
+  relationship = "one-to-one"
+) %>%
   dplyr::select(
     hb2019,
     hb2019name,
@@ -114,9 +108,7 @@ postcode_sf <- non_split_postcodes_sf %>%
 # 3. Group Up Postcodes Into HSCPs -----
 
 hscp_sf <- postcode_sf %>%
-
   filter(hb2019name == healthboard_oi) %>%
-
   summarise(
     # This function takes the Postcodes and combines them all together by HSCP
     geometry = st_union(geometry),
@@ -129,12 +121,12 @@ hscp_sf <- postcode_sf %>%
 
 pal <- colorFactor(
   palette = c(
-    '#006d77',
-    '#3e7730',
-    '#ff3b75',
-    '#1d568e',
-    '#31A845',
-    '#AA3EBD'
+    "#006d77",
+    "#3e7730",
+    "#ff3b75",
+    "#1d568e",
+    "#31A845",
+    "#AA3EBD"
   ),
   domain = sort(unique(hscp_sf$hscp2019name))
 )
@@ -143,9 +135,7 @@ pal <- colorFactor(
 # 5. Create Map ----
 
 leaflet() %>%
-
   addTiles() %>%
-
   addPolygons(
     data = hscp_sf,
     popup = ~ paste(hscp2019name, "HSCP Approximation (Using Postcodes)"),
@@ -153,7 +143,6 @@ leaflet() %>%
     color = ~ pal(hscp2019name),
     fillOpacity = 0.3,
   ) %>%
-
   addLegend(
     data = hscp_sf,
     pal = pal,
