@@ -9,6 +9,7 @@ library(ckanr) # Web scraping
 library(janitor)
 library(leaflet)
 library(phslookups)
+library(phsmethods)
 
 # 1. Load Scottish Postcode Directory ----
 # This gets all postcodes in Scotland + associated HB, HSCP + postcodes centroid (midpoint)
