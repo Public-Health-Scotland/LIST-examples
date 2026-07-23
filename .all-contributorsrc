@@ -5,18 +5,86 @@
   "imageSize": 100,
   "commit": true,
   "commitType": "docs",
-  "commitConvention": "gitmoji",
+  "commitConvention": "angular",
+  "contributorsSortAlphabetically": "true",
   "contributors": [
     {
       "login": "Moohan",
-      "name": "James McMahon",
-      "avatar_url": "https://avatars.githubusercontent.com/u/5982260?v=4",
+      "name": "James Hayes",
+      "avatar_url": "https://avatars.githubusercontent.com/u/5982260",
       "profile": "https://publichealthscotland.scot/",
       "contributions": [
         "code",
         "review",
         "maintenance",
         "projectManagement"
+      ]
+    },
+    {
+      "login": "kate-pyper",
+      "name": "Kate Pyper",
+      "avatar_url": "https://avatars.githubusercontent.com/u/48451587?v=4",
+      "profile": "https://github.com/kate-pyper",
+      "contributions": [
+        "code",
+        "review"
+      ]
+    },
+    {
+      "login": "jamesk-PHS",
+      "name": "James Kilgour",
+      "avatar_url": "https://avatars.githubusercontent.com/u/166704589?v=4",
+      "profile": "https://github.com/jamesk-PHS",
+      "contributions": [
+        "ideas"
+      ]
+    },
+    {
+      "login": "Bradley-Roy",
+      "name": "Bradley Roy",
+      "avatar_url": "https://avatars.githubusercontent.com/u/73593773?v=4",
+      "profile": "https://github.com/Bradley-Roy",
+      "contributions": [
+        "code",
+        "review"
+      ]
+    },
+    {
+      "login": "CliveWG",
+      "name": "Clive Greatorex",
+      "avatar_url": "https://avatars.githubusercontent.com/u/109799428?v=4",
+      "profile": "https://github.com/CliveWG",
+      "contributions": [
+        "code",
+        "review"
+      ]
+    },
+    {
+      "login": "Andrew-Saul",
+      "name": "Andrew Saul",
+      "avatar_url": "https://avatars.githubusercontent.com/u/94113765?v=4",
+      "profile": "https://github.com/Andrew-Saul",
+      "contributions": [
+        "ideas"
+      ]
+    },
+    {
+      "login": "csillasch",
+      "name": "Csilla Scharle",
+      "avatar_url": "https://avatars.githubusercontent.com/u/59616009?v=4",
+      "profile": "https://github.com/csillasch",
+      "contributions": [
+        "review",
+        "code"
+      ]
+    },
+    {
+      "login": "DitteA",
+      "name": "Ditte Andersen",
+      "avatar_url": "https://avatars.githubusercontent.com/u/161013371?v=4",
+      "profile": "https://github.com/DitteA",
+      "contributions": [
+        "bug"
       ]
     }
   ],
