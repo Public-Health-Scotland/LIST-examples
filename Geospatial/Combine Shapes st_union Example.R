@@ -32,7 +32,7 @@ spd_lookup <- phslookups::get_spd(
 
 postcode_sf <- list.files(
   "/conf/linkage/output/lookups/Unicode/Geography/Shapefiles",
-  pattern = "PC_Cut_\\d+_\\d+",
+  pattern = "PC_Cut_\\d{2}_\\d$",
   full.names = TRUE
 ) %>%
   data.frame(filename = .) %>%
