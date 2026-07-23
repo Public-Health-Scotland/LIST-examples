@@ -2,31 +2,112 @@ name: Style the Project
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   pull_request:
     types: [opened, synchronize, reopened]
 
 permissions:
   contents: write
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  style_check:
+  style:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repo
         uses: actions/checkout@v7
         with:
-          ref: ${{ github.event.pull_request.head.ref }} 
-          fetch-depth: 0  # Fetch full history for accurate diff
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.ref || github.ref }}
+          fetch-depth: 0
 
-      - name: Install air
+      - name: Install Air
         uses: posit-dev/setup-air@v1
 
-      - name: Style code using air
+      - name: Style .R files using Air
         run: air format .
 
-      - name: Commit and push changes
+      - name: Detect changed .Rmd files
+        id: changed_rmd
+        shell: bash
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            BASE_SHA="${{ github.event.pull_request.base.sha }}"
+            HEAD_SHA="${{ github.event.pull_request.head.sha }}"
+          else
+            BASE_SHA="${{ github.event.before }}"
+            HEAD_SHA="${{ github.sha }}"
+          fi
+
+          echo "Diffing $BASE_SHA..$HEAD_SHA"
+
+          # Handle first-push edge case: all-zero before SHA
+          if [ "$BASE_SHA" = "0000000000000000000000000000000000000000" ]; then
+            CHANGED_RMD="$(git ls-files | grep -E '\.Rmd$' || true)"
+          else
+            CHANGED_RMD="$(git diff --name-only "$BASE_SHA" "$HEAD_SHA" | grep -E '\.Rmd$' || true)"
+          fi
+
+          if [ -n "$CHANGED_RMD" ]; then
+            echo "rmd_changed=true" >> "$GITHUB_OUTPUT"
+            printf "%s\n" "$CHANGED_RMD"
+          else
+            echo "rmd_changed=false" >> "$GITHUB_OUTPUT"
+            echo "No .Rmd changes detected."
+          fi
+
+      - name: Setup R
+        if: steps.changed_rmd.outputs.rmd_changed == 'true'
+        uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+
+      - name: Install styler deps (cached)
+        if: steps.changed_rmd.outputs.rmd_changed == 'true'
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::styler
+            any::roxygen2
+            any::knitr
+
+      - name: Enable styler cache
+        if: steps.changed_rmd.outputs.rmd_changed == 'true'
+        run: styler::cache_activate()
+        shell: Rscript {0}
+
+      - name: Determine styler cache location
+        if: steps.changed_rmd.outputs.rmd_changed == 'true'
+        id: styler-location
+        run: |
+          cat(
+            "location=",
+            styler::cache_info(format = "tabular")$location,
+            "\n",
+            file = Sys.getenv("GITHUB_OUTPUT"),
+            append = TRUE,
+            sep = ""
+          )
+        shell: Rscript {0}
+
+      - name: Cache styler results
+        if: steps.changed_rmd.outputs.rmd_changed == 'true'
+        uses: actions/cache@v6
+        with:
+          path: ${{ steps.styler-location.outputs.location }}
+          key: ${{ runner.os }}-styler-${{ hashFiles('**/*.Rmd', '**/*.R') }}
+          restore-keys: |
+            ${{ runner.os }}-styler-
+
+      - name: Style .Rmd using styler
+        if: steps.changed_rmd.outputs.rmd_changed == 'true'
+        run: Rscript -e 'styler::style_dir(".", filetype = c("rmd", "rmarkdown"))'
+
+      - name: Commit and push combined formatting changes
         uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: "Style code"
+          skip_checkout: true
