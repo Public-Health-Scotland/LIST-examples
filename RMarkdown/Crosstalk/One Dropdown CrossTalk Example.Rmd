@@ -35,8 +35,6 @@ $(document).ready(function() {
 });
 ```
 
-
-
 ```{r example data 1}
 # This section creates fake blood pressure readings for 5 patients: A, B, C, D & E. We will use this data to create a chart which will be changed by a crosstalk filter.
 BP_Readings <- data.frame(
@@ -46,9 +44,8 @@ BP_Readings <- data.frame(
 )
 ```
 
-
 ```{r example data 2}
-# This section creates fake characteristics about these patients which we will use to create a another chart changed by the same crosstalk filter
+# This section creates fake characteristics about these patients which we will use to create another chart changed by the same crosstalk filter
 
 Person_Characteristics <- data.frame(
   Person = c("A", "B", "C", "D", "E"),
@@ -59,7 +56,6 @@ Person_Characteristics <- data.frame(
 
 ```{r crosstalk setup}
 # Our Unique Identifier Column (Thing We Wish To Choose From) is the Person Column
-
 BP_Readings_Shared <- SharedData$new(BP_Readings, key = ~Person, group = "BP_Group")
 
 Person_Characteristics_Shared <- SharedData$new(Person_Characteristics, key = ~Person, group = "BP_Group")
@@ -159,10 +155,7 @@ Person_Characteristics_Shared %>%
 ```
 
 
-
-
 ``` {js specialty filter code}
-
 //JavaScript code using the jQuery library
   // When document is ready
   $(document).ready(function() {
@@ -173,16 +166,8 @@ Person_Characteristics_Shared %>%
       // Select Person filter and remove (all) option
       $('#person .selectized')[0].selectize.removeOption("");
 
-      // Select Person filter and set it's default value on load to Person A 
+      // Select Person filter and set its default value on load to Person A 
       $('#person .selectized')[0].selectize.setValue("A", false);
-
     });
   });
-
 ```
-
-
-
-
-
-
