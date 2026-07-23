@@ -75,7 +75,12 @@ accident_and_emergency_data <- get_dataset(
 # After this step we have a dataset of A + E locations + their associated postcode centroids which we will use for plotting
 
 accident_and_emergency_data <- accident_and_emergency_data %>%
-  mutate(treatment_location_postcode = format_postcode(treatment_location_postcode, format = "pc8")) %>%
+  mutate(
+    treatment_location_postcode = format_postcode(
+      treatment_location_postcode,
+      format = "pc8"
+    )
+  ) %>%
   left_join(spd_lookup, by = c("treatment_location_postcode" = "pc8")) %>% # Attach on information about hospital postcode
 
   dplyr::select(
