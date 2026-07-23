@@ -3,9 +3,6 @@ healthboard_oi <- "NHS Western Isles"
 # 0. Load Packages ----
 
 library(dplyr)
-library(phsopendata)
-library(rvest) # Web scraping
-library(ckanr) # Web scraping
 library(janitor)
 library(leaflet)
 library(stringr)
