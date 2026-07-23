@@ -102,10 +102,10 @@ postcode_sf <- non_split_postcodes_sf %>%
   ) %>%
 
   dplyr::select(
-    hb2019 = hb2019,
-    hb2019name = hb2019name,
-    hscp2019 = hscp2019,
-    hscp2019name = hscp2019name,
+    hb2019,
+    hb2019name,
+    hscp2019,
+    hscp2019name,
     postcode,
     geometry
   )
