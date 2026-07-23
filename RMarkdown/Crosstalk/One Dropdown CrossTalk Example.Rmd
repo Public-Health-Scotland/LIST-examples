@@ -38,12 +38,12 @@ $(document).ready(function() {
 
 
 ```{r example data 1}
-# This section creates fake blood pressure readings for 5 patients: A, B, C, D & E. We will use this data to create a chart which will be changed by a crosstalk filter. 
+# This section creates fake blood pressure readings for 5 patients: A, B, C, D & E. We will use this data to create a chart which will be changed by a crosstalk filter.
 BP_Readings <- data.frame(
-  Time=rep(seq(0,5),5),
-  Person=rep(c("A","B","C","D","E"),each=6),
-  BP=rep(seq(10,50,length.out=6),5)+rnorm(30,0,5)
-) 
+  Time = rep(seq(0, 5), 5),
+  Person = rep(c("A", "B", "C", "D", "E"), each = 6),
+  BP = rep(seq(10, 50, length.out = 6), 5) + rnorm(30, 0, 5)
+)
 ```
 
 
@@ -51,36 +51,29 @@ BP_Readings <- data.frame(
 # This section creates fake characteristics about these patients which we will use to create a another chart changed by the same crosstalk filter
 
 Person_Characteristics <- data.frame(
-  Person=c("A","B","C","D","E"),
-  Age=abs(round(rnorm(5,30,10))),
-  Weight=abs(round(rnorm(5,70,40)))
+  Person = c("A", "B", "C", "D", "E"),
+  Age = abs(round(rnorm(5, 30, 10))),
+  Weight = abs(round(rnorm(5, 70, 40)))
 )
 ```
 
 ```{r crosstalk setup}
+# Our Unique Identifier Column (Thing We Wish To Choose From) is the Person Column
 
-# Our Unique Identifier Column (Thing We Wish To Choose From) is the Person Column 
+BP_Readings_Shared <- SharedData$new(BP_Readings, key = ~Person, group = "BP_Group")
 
-BP_Readings_Shared <- SharedData$new(BP_Readings, key= ~ Person, group = "BP_Group") 
-
-Person_Characteristics_Shared <- SharedData$new(Person_Characteristics, key= ~ Person, group = "BP_Group") 
-
+Person_Characteristics_Shared <- SharedData$new(Person_Characteristics, key = ~Person, group = "BP_Group")
 ```
 
 ```{r lookup of people}
-
-Person_Lookup <- data.frame(Person=unique(BP_Readings$Person)) %>%
+Person_Lookup <- data.frame(Person = unique(BP_Readings$Person)) %>%
   arrange(Person)
 
-Person_Lookup_Shared <- SharedData$new(Person_Lookup, key= ~ Person, group = "BP_Group") 
-
-
+Person_Lookup_Shared <- SharedData$new(Person_Lookup, key = ~Person, group = "BP_Group")
 ```
 
 ```{r filter buttons}
-
-filter_select("person", "Select Some People", Person_Lookup_Shared, ~ Person, multiple = TRUE)
-
+filter_select("person", "Select Some People", Person_Lookup_Shared, ~Person, multiple = TRUE)
 ```
 
 Row
@@ -91,33 +84,36 @@ Row
 <div style="text-align: center;">Blood Pressure For Patient <span id ="bp_title"></span></div>
 
 ```{r BP graph}
-
-BP_Readings_Shared %>% 
-   plot_ly(
-     
-     x= ~Time,
-     y= ~BP,
-     color = ~Person,
-     text= ~Person,
-     hovertemplate=c("Person: %{text}\nTime: %{x}\nBP: %{y}"),
-     type="scatter",
-     mode="lines+markers"
-     
-   ) %>%
-  
-  config(displaylogo = FALSE,
-           modeBarButtonsToRemove = c("pan2d",
-                                      "select2d",
-                                      "lasso2d",
-                                      "zoomIn2d",
-                                      "zoomOut2d",
-                                      "toggleSpikelines")) %>%
-   
-   layout(showlegend=T,
-         legend = list(orientation = "h",   # show entries horizontally
-                     xanchor = "center",  # use center of legend as anchor
-                     x = 0.5,
-                     y=-0.2))
+BP_Readings_Shared %>%
+  plot_ly(
+    x = ~Time,
+    y = ~BP,
+    color = ~Person,
+    text = ~Person,
+    hovertemplate = c("Person: %{text}\nTime: %{x}\nBP: %{y}"),
+    type = "scatter",
+    mode = "lines+markers"
+  ) %>%
+  config(
+    displaylogo = FALSE,
+    modeBarButtonsToRemove = c(
+      "pan2d",
+      "select2d",
+      "lasso2d",
+      "zoomIn2d",
+      "zoomOut2d",
+      "toggleSpikelines"
+    )
+  ) %>%
+  layout(
+    showlegend = T,
+    legend = list(
+      orientation = "h", # show entries horizontally
+      xanchor = "center", # use center of legend as anchor
+      x = 0.5,
+      y = -0.2
+    )
+  )
 ```
 
 Row
@@ -128,35 +124,38 @@ Row
 <div style="text-align: center;">Characteristics For Patient <span id ="characteristics_title"></span></div>
 
 ```{r characteristics graph}
-
-Person_Characteristics_Shared %>% 
-   plot_ly(
-     
-     x= ~Age,
-     y= ~Weight,
-     color = ~Person,
-     text= ~Person,
-     hovertemplate=c("Person: %{text}\nAge: %{x}\nWeight: %{y}"),
-     marker = list(size = 10,
-                   line = list(width = 2))
-     
-   ) %>%
-   
-   config(displaylogo = FALSE,
-           modeBarButtonsToRemove = c("pan2d",
-                                      "select2d",
-                                      "lasso2d",
-                                      "zoomIn2d",
-                                      "zoomOut2d",
-                                      "toggleSpikelines")) %>%
-   
-   layout(showlegend=T,
-         legend = list(orientation = "h",   # show entries horizontally
-                     xanchor = "center",  # use center of legend as anchor
-                     x = 0.5,
-                     y=-0.2))
-  
-  
+Person_Characteristics_Shared %>%
+  plot_ly(
+    x = ~Age,
+    y = ~Weight,
+    color = ~Person,
+    text = ~Person,
+    hovertemplate = c("Person: %{text}\nAge: %{x}\nWeight: %{y}"),
+    marker = list(
+      size = 10,
+      line = list(width = 2)
+    )
+  ) %>%
+  config(
+    displaylogo = FALSE,
+    modeBarButtonsToRemove = c(
+      "pan2d",
+      "select2d",
+      "lasso2d",
+      "zoomIn2d",
+      "zoomOut2d",
+      "toggleSpikelines"
+    )
+  ) %>%
+  layout(
+    showlegend = T,
+    legend = list(
+      orientation = "h", # show entries horizontally
+      xanchor = "center", # use center of legend as anchor
+      x = 0.5,
+      y = -0.2
+    )
+  )
 ```
 
 
