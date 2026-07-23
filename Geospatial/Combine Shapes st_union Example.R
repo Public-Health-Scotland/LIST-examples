@@ -37,17 +37,8 @@ postcode_sf <- list.files(
   pattern = "PC_Cut_\\d{2}_\\d$",
   full.names = TRUE
 ) %>%
-  data.frame(filename = .) %>%
-  mutate(
-    date = lapply(
-      str_extract_all(filename, "-?\\d*\\.?\\d+"),
-      paste,
-      collapse = ""
-    )
-  ) %>%
-  mutate(date = as.numeric(date)) %>%
-  filter(date == max(date)) %>%
-  pull(filename) %>%
+  sort(decreasing = TRUE) %>%
+  .[1] %>%
   read_sf() %>%
   clean_names()
 
