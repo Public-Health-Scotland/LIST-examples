@@ -7,24 +7,20 @@ output:
 
 
 ```{r setup, include=TRUE}
-
 # This Section Loads The Necessary Packages
 
 knitr::opts_chunk$set(echo = FALSE)
 
-#packages
+# Load packages
 library(flexdashboard)
 library(DT)
 library(bsplus)
 library(tidyverse)
 library(crosstalk)
 library(plotly)
-
-
 ```
 
 ```{js}
-
 // When document loads
 $(document).ready(function() {
   // This part is saying to only apply changes after the flexdashboard is done loading
@@ -37,40 +33,28 @@ $(document).ready(function() {
     });  
   });
 });
-
 ```
 
 
 
 ```{r example data 1}
-
 # This section creates fake blood pressure readings for 5 patients: A, B, C, D & E. We will use this data to create a chart which will be changed by a crosstalk filter. 
-
 BP_Readings <- data.frame(
-  
   Time=rep(seq(0,5),5),
   Person=rep(c("A","B","C","D","E"),each=6),
   BP=rep(seq(10,50,length.out=6),5)+rnorm(30,0,5)
 ) 
-
-
 ```
 
 
 ```{r example data 2}
-
 # This section creates fake characteristics about these patients which we will use to create a another chart changed by the same crosstalk filter
 
 Person_Characteristics <- data.frame(
-  
   Person=c("A","B","C","D","E"),
   Age=abs(round(rnorm(5,30,10))),
   Weight=abs(round(rnorm(5,70,40)))
-  
 )
-
-
-
 ```
 
 ```{r crosstalk setup}
