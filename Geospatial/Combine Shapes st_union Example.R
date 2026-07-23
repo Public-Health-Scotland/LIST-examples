@@ -14,7 +14,8 @@ library(sf)
 # 1. Load Scottish Postcode Directory ----
 # This gets all postcodes in Scotland + associated HB, HSCP + postcodes centroid (midpoint)
 
-spd_lookup <- phslookups::get_spd(col_select = c(
+spd_lookup <- phslookups::get_spd(
+  col_select = c(
     hb2019,
     hb2019name,
     hscp2019,
@@ -22,7 +23,8 @@ spd_lookup <- phslookups::get_spd(col_select = c(
     pc8,
     latitude,
     longitude
-    )) %>%
+  )
+) %>%
   distinct() %>%
   mutate(pc8 = gsub(" ", "", pc8)) # need to remove spaces so all data and lookups match in format
 
