@@ -15,16 +15,23 @@ library(sf)
 # This is a list of all postcodes in Scotland + associated HB, HSCP etc.
 # We only want HSCPs + Datazones so we get a Datazone to HSCP Lookup
 
-dz_hscp_lookup <- phslookups::get_spd(col_select = c(
-  "hb2019", "hb2019name",
-  "hscp2019", "hscp2019name",
-  "datazone2022", "datazone2022name"
-)) %>%
+dz_hscp_lookup <- phslookups::get_spd(
+  col_select = c(
+    "hb2019",
+    "hb2019name",
+    "hscp2019",
+    "hscp2019name",
+    "datazone2022",
+    "datazone2022name"
+  )
+) %>%
   distinct()
 
 # 2. Load Scottish Datazone Shapefiles ----
 
-datazone2022_sf <- read_sf("/conf/linkage/output/lookups/Unicode/Geography/Shapefiles/Data Zone Boundaries 2022") %>%
+datazone2022_sf <- read_sf(
+  "/conf/linkage/output/lookups/Unicode/Geography/Shapefiles/Data Zone Boundaries 2022"
+) %>%
   clean_names() %>%
   dplyr::select(datazone2022 = dzcode)
 
