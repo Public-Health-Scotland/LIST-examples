@@ -1,4 +1,4 @@
-healthboard_oi <- "NHS Western Isles"
+healthboard_oi <- "NHS Ayrshire and Arran"
 
 # 0. Load Packages ----
 
@@ -40,7 +40,8 @@ postcode_sf <- list.files(
   clean_names()
 
 # In these "postcode" shapefiles some postcodes have actually been split into parts
-# These parts been combined in order to get the actual shapes of the postcodes
+# Some are in the form of a nromal postcode plues a letter e.g. o.g. postcode is G744JF but its been split into G744JFA + G744JFB
+# These parts have to be combined in order to get the actual shapes of the postcodes
 # + to be able to attach on the SPD
 
 postcode_sf <- postcode_sf %>%
@@ -76,13 +77,17 @@ non_split_postcodes_sf <- postcode_sf %>%
 
 
 postcode_sf <- non_split_postcodes_sf %>%
-  bind_rows(split_postcodes_sf) %>%
-  mutate(postcode = format_postcode(postcode, format = "pc8"))
-full_join(
-  spd_lookup,
-  by = c("postcode" = "pc8"),
-  relationship = "one-to-one"
-) %>%
+  bind_rows(split_postcodes_sf)
+
+# 3. Attach SPD To Shapefiles ----
+
+postcode_sf <- postcode_sf %>%
+  mutate(postcode = format_postcode(postcode, format = "pc8")) %>%
+  left_join(
+    spd_lookup,
+    by = c("postcode" = "pc8"),
+    relationship = "one-to-one"
+  ) %>%
   dplyr::select(
     hb2019,
     hb2019name,
