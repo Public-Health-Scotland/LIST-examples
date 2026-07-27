@@ -114,4 +114,4 @@ leaflet() %>%
     popup = ~ paste(postcode),
     color = "blue",
     fillOpacity = 0,
-  ) 
+  )
