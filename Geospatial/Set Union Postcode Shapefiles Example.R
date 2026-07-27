@@ -98,20 +98,49 @@ postcode_sf <- postcode_sf %>%
   )
 
 
-# 3. Filter For Postcodes Of Interest + Convert To Correct Coordinates -----
+# 3. Group Up Postcodes Into HSCPs -----
 
-postcode_sf <- postcode_sf %>%
+hscp_sf <- postcode_sf %>%
   filter(hb2019name == healthboard_oi) %>%
+  summarise(
+    # This function takes the Postcodes and combines them all together by HSCP
+    geometry = st_union(geometry),
+    .by = c("hb2019", "hb2019name", "hscp2019", "hscp2019name")
+  ) %>%
   st_transform(4326)
 
 
-# 4. Create Map ----
+# 4. Define Palette Colours ----
+
+pal <- colorFactor(
+  palette = c(
+    "#006d77",
+    "#3e7730",
+    "#ff3b75",
+    "#1d568e",
+    "#31A845",
+    "#AA3EBD"
+  ),
+  domain = sort(unique(hscp_sf$hscp2019name))
+)
+
+
+# 5. Create Map ----
 
 leaflet() %>%
   addTiles() %>%
   addPolygons(
-    data = postcode_sf,
-    popup = ~ paste(postcode),
-    color = "blue",
-    fillOpacity = 0,
-  ) 
+    data = hscp_sf,
+    popup = ~ paste(hscp2019name, "HSCP Approximation (Using Postcodes)"),
+    fillColor = ~ pal(hscp2019name),
+    color = ~ pal(hscp2019name),
+    fillOpacity = 0.3,
+  ) %>%
+  addLegend(
+    data = hscp_sf,
+    pal = pal,
+    values = ~hscp2019name,
+    position = "bottomleft",
+    title = "HSCP Name:",
+    opacity = 0.9
+  )
