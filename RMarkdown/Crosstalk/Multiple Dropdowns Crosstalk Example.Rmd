@@ -8,17 +8,15 @@ output:
 ```{r setup, include=FALSE}
 # This document will serve as a guide on how to create charts that are changed by two crosstalk filters simultaneously. It will also serve as a guide on how to use crosstalk with flexdashboard
 
-# This Section Sets Defaults For Rmarkdown Document
+# Set defaults for R Markdown chunks
 knitr::opts_chunk$set(echo = FALSE)
-
-# This Section Loads The Necessary Packages
-library(flexdashboard)
-library(DT)
-library(bsplus)
-library(tidyverse)
+ 
+# Load packages
 library(crosstalk)
-library(plotly)
+library(dplyr)
 library(DT)
+library(plotly)
+library(tidyr)
 ```
 
 ```{js update-titles-from-person-filter}
