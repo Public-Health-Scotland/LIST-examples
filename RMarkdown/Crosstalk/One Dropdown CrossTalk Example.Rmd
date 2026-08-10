@@ -20,18 +20,18 @@ library(crosstalk)
 library(plotly)
 ```
 
-```{js}
+```{js update-titles-from-person-filter}
 // When document loads
-$(document).ready(function() {
-  // This part is saying to only apply changes after the flexdashboard is done loading
-  $('#dashboard-container').on('flexdashboard:layoutcomplete', function() {
-    // Assign onChange function to filter_select
-    $('#person .selectized')[0].selectize.on('change', function() { 
-      var selected_value = $('#person .selectized')[0].selectize.getValue().sort(); // Get current value
-      document.getElementById("bp_title").innerHTML = selected_value; // Update titles with new value
-      document.getElementById("characteristics_title").innerHTML = selected_value;
-    });  
-  });
+$(document).ready(function () {
+    // This part is saying only to apply changes after the flexdashboard is done loading
+    $('#dashboard-container').on('flexdashboard:layoutcomplete', function () {
+        // Assign onChange function to filter_select
+        $('#person .selectized')[0].selectize.on('change', function () {
+            var selected_value = $('#person .selectized')[0].selectize.getValue().sort(); // Get current value
+            document.getElementById("bp_title").innerHTML = selected_value; // Update titles with new value
+            document.getElementById("characteristics_title").innerHTML = selected_value;
+        });
+    });
 });
 ```
 
@@ -155,19 +155,19 @@ Person_Characteristics_Shared %>%
 ```
 
 
-``` {js specialty filter code}
-//JavaScript code using the jQuery library
-  // When document is ready
-  $(document).ready(function() {
-  
-    // Called when flexdashboard content has been created. Won't work properly otherwise
-    $('#dashboard-container').on('flexdashboard:layoutcomplete', function() {
-    
-      // Select Person filter and remove (all) option
-      $('#person .selectized')[0].selectize.removeOption("");
+``` {js initialise-person-filter}
+// JavaScript code using the jQuery library
+// When document is ready
+$(document).ready(function () {
 
-      // Select Person filter and set its default value on load to Person A 
-      $('#person .selectized')[0].selectize.setValue("A", false);
+    // Called when flexdashboard content has been created. Won't work properly otherwise
+    $('#dashboard-container').on('flexdashboard:layoutcomplete', function () {
+
+        // Select Person filter and remove (all) option
+        $('#person .selectized')[0].selectize.removeOption("");
+
+        // Select Person filter and set its default value on load to Person A 
+        $('#person .selectized')[0].selectize.setValue("A", false);
     });
-  });
+});
 ```
