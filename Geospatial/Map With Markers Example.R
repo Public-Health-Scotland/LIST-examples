@@ -44,10 +44,8 @@ gp_practice_data <- get_latest_resource(
 
 gp_practice_data <- gp_practice_data %>%
   mutate(postcode = format_postcode(postcode, format = "pc8")) %>% # need to format so all data and lookups match
-
-  left_join(spd_lookup, by = c("postcode" = "pc8")) %>% # Attach on information about practice postcode
-
-  dplyr::select(
+  left_join(spd_lookup, by = c("postcode" = "pc8")) %>% # Attach information about practice postcode
+  select(
     location_type,
     hb2019,
     hb2019name,
@@ -83,8 +81,7 @@ accident_and_emergency_data <- accident_and_emergency_data %>%
     )
   ) %>%
   left_join(spd_lookup, by = c("treatment_location_postcode" = "pc8")) %>% # Attach on information about hospital postcode
-
-  dplyr::select(
+  select(
     location_type,
     hb2019,
     hb2019name,
@@ -98,7 +95,7 @@ accident_and_emergency_data <- accident_and_emergency_data %>%
   )
 
 
-# 3. Combine Together GP Data & A + E Data and Filter For Healthboard Of Interest ----
+# 3. Combine GP Data & A + E Data and Filter For Healthboard Of Interest ----
 
 location_data <- gp_practice_data %>%
   bind_rows(accident_and_emergency_data) %>%
