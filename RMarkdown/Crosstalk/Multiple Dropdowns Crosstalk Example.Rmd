@@ -59,8 +59,7 @@ BP_Readings_treatment_2 <- data.frame(
   mutate(Treatment = "Heart Medication 2")
 
 # Combining together to get list of all patients blood pressure readings over time for each treatment
-All_BP_readings <- BP_Readings_treatment_1 %>%
-  rbind(BP_Readings_treatment_2)
+All_BP_readings <- bind_rows(BP_Readings_treatment_1, BP_Readings_treatment_2)
 
 
 # We are going to be filtering our charts and table by Person and by Treatment
@@ -69,13 +68,12 @@ All_BP_readings <- BP_Readings_treatment_1 %>%
 # Since we have two different columns which uniquely identify the information we wish to keep in our charts: Person & Treatment
 # we must combine the info in these two columns into one column in some way
 # Most common way is shown below
-All_BP_readings <- All_BP_readings %>%
-  mutate(Identifier_Column = paste0(Person, "_", Treatment))
+All_BP_readings <- mutate(All_BP_readings, Identifier_Column = paste0(Person, "_", Treatment))
 
 # Now our data looks like this
 All_BP_readings %>%
   mutate(BP = round(BP)) %>%
-  DT::datatable()
+  datatable()
 ```
 
 ```{r example data 2, include = FALSE}
@@ -106,10 +104,7 @@ example_data <- data.frame(
   Ages = c(18, 19, 20)
 )
 
-example_data <- example_data %>%
-  crossing(
-    Hobbies = c("Badminton", "Chess")
-  )
+example_data <- crossing(example_data, Hobbies = c("Badminton", "Chess"))
 
 # You can see here that the crossing function has preserved the values already present
 # but added a new column which gives these values combined with the new vector values
@@ -123,8 +118,7 @@ Person_Characteristics <- Person_Characteristics %>%
 
 
 # Now our data looks like
-Person_Characteristics %>%
-  DT::datatable()
+datatable(Person_Characteristics)
 
 # Now our person characteristics dataframe can be filtered by our two crosstalk filters and in essence be unaffected by the treatment filter
 ```
@@ -140,8 +134,7 @@ Person_Characteristics %>%
 # in this instance, it is finding all unique combinations of treatments and people
 # (as well as the unique identifier column, which combines the two) that are present within the data
 
-Person_And_Treatment_Lookup <- All_BP_readings %>%
-  distinct(Person, Treatment, Identifier_Column)
+Person_And_Treatment_Lookup <- distinct(All_BP_readings, Person, Treatment, Identifier_Column)
 
 # this lookup looks like this
 
