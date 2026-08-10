@@ -39,9 +39,9 @@ postcode_sf <- list.files(
   read_sf() %>%
   clean_names()
 
-# In these "postcode" shapefiles some postcodes have actually been split into parts
-# Some are in the form of a nromal postcode plues a letter e.g. o.g. postcode is G744JF but its been split into G744JFA + G744JFB
-# These parts have to be combined in order to get the actual shapes of the postcodes
+# In these "postcode" shapefiles, some postcodes have actually been split into parts
+# Some are in the form of a normal postcode plus a letter, e.g. postcode is G744JF, but it's been split into G744JFA + G744JFB
+# These parts have to be combined to get the actual shapes of the postcodes
 # + to be able to attach on the SPD
 
 postcode_sf <- postcode_sf %>%
