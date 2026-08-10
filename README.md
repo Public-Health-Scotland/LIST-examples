@@ -1,6 +1,6 @@
 # LIST-examples
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-8-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-9-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 A collection of best practice examples for use by LIST team members.
 
@@ -26,7 +26,7 @@ If possible, add or update the `README.md` in the topic folder.
 
 ## Contributors ✨
 
-Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/en/reference/emoji-key/)):
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
@@ -44,6 +44,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     </tr>
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/kate-pyper"><img src="https://avatars.githubusercontent.com/u/48451587?v=4?s=100" width="100px;" alt="Kate Pyper"/><br /><sub><b>Kate Pyper</b></sub></a><br /><a href="https://github.com/Public-Health-Scotland/LIST-examples/commits?author=kate-pyper" title="Code">💻</a> <a href="https://github.com/Public-Health-Scotland/LIST-examples/pulls?q=is%3Apr+reviewed-by%3Akate-pyper" title="Reviewed Pull Requests">👀</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/RyanDuffy01"><img src="https://avatars.githubusercontent.com/u/82060940?v=4?s=100" width="100px;" alt="RyanDuffy01"/><br /><sub><b>RyanDuffy01</b></sub></a><br /><a href="https://github.com/Public-Health-Scotland/LIST-examples/commits?author=RyanDuffy01" title="Code">💻</a> <a href="#maintenance-RyanDuffy01" title="Maintenance">🚧</a></td>
     </tr>
   </tbody>
 </table>
@@ -53,4 +54,4 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
-This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
+This project follows the [all-contributors](https://github.com/all-contributors/allcontributors.org) specification. Contributions of any kind are welcome!
