@@ -64,7 +64,7 @@ postcode_sf <- postcode_sf %>%
 split_postcodes_sf <- postcode_sf %>%
   filter(postcode != true_postcode) %>%
   summarise(
-    # This function takes the Postcodes and combines them all together by HSCP
+    # This function takes the Postcodes and combines them all by HSCP
     geometry = st_union(geometry),
     .by = c("true_postcode")
   ) %>%
@@ -73,7 +73,7 @@ split_postcodes_sf <- postcode_sf %>%
 
 non_split_postcodes_sf <- postcode_sf %>%
   filter(postcode == true_postcode) %>%
-  dplyr::select(postcode)
+  select(postcode)
 
 
 postcode_sf <- non_split_postcodes_sf %>%
@@ -88,7 +88,7 @@ postcode_sf <- postcode_sf %>%
     by = c("postcode" = "pc8"),
     relationship = "one-to-one"
   ) %>%
-  dplyr::select(
+  select(
     hb2019,
     hb2019name,
     hscp2019,
