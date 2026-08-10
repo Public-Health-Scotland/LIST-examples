@@ -33,13 +33,13 @@ datazone2022_sf <- read_sf(
   "/conf/linkage/output/lookups/Unicode/Geography/Shapefiles/Data Zone Boundaries 2022"
 ) %>%
   clean_names() %>%
-  dplyr::select(datazone2022 = dzcode)
+  select(datazone2022 = dzcode)
 
 # 3. Attach Datazone to HSCP Lookup ----
 
 datazone2022_sf <- datazone2022_sf %>%
   left_join(dz_hscp_lookup, by = "datazone2022") %>%
-  dplyr::select(
+  select(
     hb2019,
     hb2019name,
     hscp2019,
@@ -54,7 +54,7 @@ datazone2022_sf <- datazone2022_sf %>%
 hscp2019_sf <- datazone2022_sf %>%
   filter(hb2019name == healthboard_oi) %>%
   summarise(
-    # This function takes the Postcodes and combines them all together by HSCP
+    # This function takes the Postcodes and combines them all by HSCP
     geometry = st_union(geometry),
     .by = c("hscp2019", "hscp2019name")
   ) %>%
