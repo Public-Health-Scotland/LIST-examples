@@ -7,16 +7,11 @@ output:
 
 
 ```{r setup, include=TRUE}
-# This Section Loads The Necessary Packages
-
 knitr::opts_chunk$set(echo = FALSE)
 
 # Load packages
-library(flexdashboard)
-library(DT)
-library(bsplus)
-library(tidyverse)
 library(crosstalk)
+library(dplyr)
 library(plotly)
 ```
 
