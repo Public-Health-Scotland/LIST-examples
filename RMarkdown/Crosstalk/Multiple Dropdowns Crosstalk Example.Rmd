@@ -260,29 +260,22 @@ Person_Characteristics_Shared |>
   )
 ```
 
-``` {js initialise-dashboard-filters}
-// JavaScript code using the jQuery library
-// When document is ready
+```{js initialise-dashboard-filters}
+// Set defaults after the dashboard filters have been created.
 $(document).ready(function () {
-
-    // This part is saying only to apply changes after the flexdashboard is done loading
     $('#dashboard-container').on('flexdashboard:layoutcomplete', function () {
+        var personControl = $('#person .selectized')[0];
+        var treatmentControl = $('#treatment .selectized')[0];
+        if (!personControl || !personControl.selectize ||
+            !treatmentControl || !treatmentControl.selectize) return;
 
-        // Select Person filter and remove (all) option
-        $('#person .selectized')[0].selectize.removeOption("");
+        // Remove the (all) option and set the default selections.
+        personControl.selectize.removeOption("");
+        personControl.selectize.setValue("A", false);
 
-        // Select Person filter and set its default value on load to Person A
-        $('#person .selectized')[0].selectize.setValue("A", false);
-    });
+        treatmentControl.selectize.removeOption("");
+        treatmentControl.selectize.setValue("Heart Medication 1", false);
 
-    // Called when flexdashboard content has been created. Won't work properly otherwise
-    $('#dashboard-container').on('flexdashboard:layoutcomplete', function () {
-
-        // Select Treatment filter and remove (all) option
-        $('#treatment .selectized')[0].selectize.removeOption("");
-
-        // Select Treatment filter and set its default value on load to Heart Medication 1
-        $('#treatment .selectized')[0].selectize.setValue("Heart Medication 1", false);
     });
 });
 ```
