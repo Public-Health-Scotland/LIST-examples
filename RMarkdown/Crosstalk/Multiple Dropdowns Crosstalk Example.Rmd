@@ -45,7 +45,7 @@ BP_Readings_treatment_1 <- data.frame(
   Time = rep(seq(0, 5), 5),
   Person = rep(c("A", "B", "C", "D", "E"), each = 6),
   BP = rep(seq(10, 100, length.out = 6), 5) + rnorm(30, 0, 5)
-) %>%
+) |>
   mutate(Treatment = "Heart Medication 1")
 
 # The readings for the patients when they have taken treatment 2
@@ -53,7 +53,7 @@ BP_Readings_treatment_2 <- data.frame(
   Time = rep(seq(0, 5), 5),
   Person = rep(c("A", "B", "C", "D", "E"), each = 6),
   BP = rep(seq(10, 100, length.out = 6), 5) + rnorm(30, 0, 5)
-) %>%
+) |>
   mutate(Treatment = "Heart Medication 2")
 
 # Combining together to get list of all patients blood pressure readings over time for each treatment
@@ -69,8 +69,8 @@ All_BP_readings <- bind_rows(BP_Readings_treatment_1, BP_Readings_treatment_2)
 All_BP_readings <- mutate(All_BP_readings, Identifier_Column = paste0(Person, "_", Treatment))
 
 # Now our data looks like this
-All_BP_readings %>%
-  mutate(BP = round(BP)) %>%
+All_BP_readings |>
+  mutate(BP = round(BP)) |>
   datatable()
 ```
 
@@ -110,8 +110,8 @@ example_data <- crossing(example_data, Hobbies = c("Badminton", "Chess"))
 # This is useful for us as we can create a column for treatment which will preserve the original person characteristics
 # while also adding in a treatment column that we can use to create our unique identifier column
 
-Person_Characteristics <- Person_Characteristics %>%
-  crossing(Treatment = c("Heart Medication 1", "Heart Medication 2")) %>%
+Person_Characteristics <- Person_Characteristics |>
+  crossing(Treatment = c("Heart Medication 1", "Heart Medication 2")) |>
   mutate(Identifier_Column = paste0(Person, "_", Treatment))
 
 
@@ -136,7 +136,7 @@ Person_And_Treatment_Lookup <- distinct(All_BP_readings, Person, Treatment, Iden
 
 # this lookup looks like this
 
-Person_And_Treatment_Lookup %>%
+Person_And_Treatment_Lookup |>
   DT::datatable()
 ```
 
@@ -185,7 +185,7 @@ Row
 
 ```{r BP graph}
 # Our Unique Identifier Column (Thing We Wish To Choose From) is the Identifier_Column Column
-All_BP_readings_Shared %>%
+All_BP_readings_Shared |>
   plot_ly(
     x = ~Time,
     y = ~BP,
@@ -195,7 +195,7 @@ All_BP_readings_Shared %>%
     hovertemplate = c("Person: %{text}\nTime: %{x}\nBP: %{y}"),
     type = "scatter",
     mode = "lines+markers"
-  ) %>%
+  ) |>
   config(
     displaylogo = FALSE,
     modeBarButtonsToRemove = c(
@@ -206,7 +206,7 @@ All_BP_readings_Shared %>%
       "zoomOut2d",
       "toggleSpikelines"
     )
-  ) %>%
+  ) |>
   layout(
     showlegend = T,
     legend = list(
@@ -226,7 +226,7 @@ Row
 <div style="text-align: center;">Characteristics For Patient <span id ="characteristics_title"></span></div>
 
 ```{r characteristics graph}
-Person_Characteristics_Shared %>%
+Person_Characteristics_Shared |>
   plot_ly(
     x = ~Age,
     y = ~Weight,
@@ -237,7 +237,7 @@ Person_Characteristics_Shared %>%
       size = 10,
       line = list(width = 2)
     )
-  ) %>%
+  ) |>
   config(
     displaylogo = FALSE,
     modeBarButtonsToRemove = c(
@@ -248,7 +248,7 @@ Person_Characteristics_Shared %>%
       "zoomOut2d",
       "toggleSpikelines"
     )
-  ) %>%
+  ) |>
   layout(
     showlegend = T,
     legend = list(

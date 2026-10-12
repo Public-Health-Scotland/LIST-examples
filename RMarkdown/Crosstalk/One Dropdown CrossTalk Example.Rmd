@@ -57,7 +57,7 @@ Person_Characteristics_Shared <- SharedData$new(Person_Characteristics, key = ~P
 ```
 
 ```{r lookup of people}
-Person_Lookup <- data.frame(Person = unique(BP_Readings$Person)) %>%
+Person_Lookup <- data.frame(Person = unique(BP_Readings$Person)) |>
   arrange(Person)
 
 Person_Lookup_Shared <- SharedData$new(Person_Lookup, key = ~Person, group = "BP_Group")
@@ -75,7 +75,7 @@ Row
 <div style="text-align: center;">Blood Pressure For Patient <span id ="bp_title"></span></div>
 
 ```{r BP graph}
-BP_Readings_Shared %>%
+BP_Readings_Shared |>
   plot_ly(
     x = ~Time,
     y = ~BP,
@@ -84,7 +84,7 @@ BP_Readings_Shared %>%
     hovertemplate = c("Person: %{text}\nTime: %{x}\nBP: %{y}"),
     type = "scatter",
     mode = "lines+markers"
-  ) %>%
+  ) |>
   config(
     displaylogo = FALSE,
     modeBarButtonsToRemove = c(
@@ -95,7 +95,7 @@ BP_Readings_Shared %>%
       "zoomOut2d",
       "toggleSpikelines"
     )
-  ) %>%
+  ) |>
   layout(
     showlegend = T,
     legend = list(
@@ -115,7 +115,7 @@ Row
 <div style="text-align: center;">Characteristics For Patient <span id ="characteristics_title"></span></div>
 
 ```{r characteristics graph}
-Person_Characteristics_Shared %>%
+Person_Characteristics_Shared |>
   plot_ly(
     x = ~Age,
     y = ~Weight,
@@ -126,7 +126,7 @@ Person_Characteristics_Shared %>%
       size = 10,
       line = list(width = 2)
     )
-  ) %>%
+  ) |>
   config(
     displaylogo = FALSE,
     modeBarButtonsToRemove = c(
@@ -137,7 +137,7 @@ Person_Characteristics_Shared %>%
       "zoomOut2d",
       "toggleSpikelines"
     )
-  ) %>%
+  ) |>
   layout(
     showlegend = T,
     legend = list(
